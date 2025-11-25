@@ -1,4 +1,4 @@
-# theptapp
+# theptappgit
 
 **Live URL**: https://mytrainerapp-ie-2025.herokuapp.com  
 **GitHub**: https://github.com/YOUR_USERNAME/mytrainerapp  
