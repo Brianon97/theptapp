@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}My Bookings{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">My Bookings</h2>
+<a href="{% url 'booking_create' %}" class="btn btn-success mb-3" aria-label="Create new booking">
+  + New Booking
+</a>
+
+{% if bookings %}
+<div class="table-responsive">
+  <table class="table table-striped table-hover align-middle">
+    <thead class="table-primary">
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Status</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in bookings %}
+      <tr>
+        <td>{{ b.date }}</td>
+        <td>{{ b.time }}</td>
+        <td>
+          <span class="badge bg-{% if b.status == 'confirmed' %}success{% elif b.status == 'pending' %}warning{% else %}danger{% endif %}">
+            {{ b.status|title }}
+          </span>
+        </td>
+        <td>{{ b.notes|default:"—"|linebreaksbr }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="alert alert-info" role="alert">
+  No bookings yet. <a href="{% url 'booking_create' %}">Create your first one!</a>
+</div>
+{% endif %}
+{% endblock %}
