@@ -1,2 +1,2 @@
 release: python manage.py migrate --noinput
-web: gunicorn mytrainerapp.wsgi --log-file -
+web: gunicorn theptapp.wsgi --log-file -

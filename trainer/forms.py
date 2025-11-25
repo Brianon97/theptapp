@@ -16,3 +16,4 @@ class BookingForm(forms.ModelForm):
             'time': 'Time',
             'notes': 'Notes (optional)'
         }
+    
