@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}The PT App - Home{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<!-- HERO IMAGE + TEXT — ONLY ON HOME PAGE -->
+<div class="position-relative overflow-hidden" style="height: 90vh; min-height: 500px;">
+  <img src="{% static 'img/hero2.jpg' %}" 
+       class="w-100 h-100 position-absolute top-0 start-0" 
+       alt="Personal Training" 
+       style="object-fit: cover; z-index: 1;">
+
+  <div class="position-absolute top-50 start-50 translate-middle text-center text-white w-100 px-4" 
+       style="z-index: 2; text-shadow: 3px 3px 12px rgba(0,0,0,0.9);">
+    <h1 class="display-2 fw-bold mb-3">WELCOME TO THE PT APP</h1>
+    <p class="lead fs-2">Manage your bookings • Track progress • Get stronger</p>
+  </div>
+</div>
+{% endblock %}
