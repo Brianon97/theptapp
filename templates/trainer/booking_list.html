@@ -3,7 +3,7 @@
 
 {% block content %}
 <h2 class="mb-4">My Bookings</h2>
-<a href="{% url 'booking_create' %}" class="btn btn-success mb-3" aria-label="Create new booking">
+<a href="{% url 'booking_create' %}" class="btn btn-success mb-3">
   + New Booking
 </a>
 
@@ -16,19 +16,28 @@
         <th>Time</th>
         <th>Status</th>
         <th>Notes</th>
+        <th class="text-center">Actions</th>
       </tr>
     </thead>
     <tbody>
       {% for b in bookings %}
       <tr>
         <td>{{ b.date }}</td>
-        <td>{{ b.time }}</td>
+        <td>{{ b.time|time:"g:i A" }}</td>
         <td>
           <span class="badge bg-{% if b.status == 'confirmed' %}success{% elif b.status == 'pending' %}warning{% else %}danger{% endif %}">
             {{ b.status|title }}
           </span>
         </td>
         <td>{{ b.notes|default:"—"|linebreaksbr }}</td>
+        <td class="text-center">
+          <a href="{% url 'booking_edit' b.pk %}" class="btn btn-sm btn-primary">
+            Edit
+          </a>
+          <a href="{% url 'booking_delete' b.pk %}" class="btn btn-sm btn-danger ms-1">
+            Cancel
+          </a>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
