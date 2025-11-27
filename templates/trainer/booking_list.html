@@ -16,23 +16,23 @@
         <th>Time</th>
         <th>Status</th>
         <th>Notes</th>
-        <th class="text-center">Actions</th>  {# ← THIS LINE WAS MISSING BEFORE #}
+        <th class="text-center">Actions</th>
       </tr>
     </thead>
     <tbody>
-      {% for b in bookings %}
+      {% for booking in bookings %}
       <tr>
-        <td>{{ b.date }}</td>
-        <td>{{ b.time|time:"g:i A" }}</td>
+        <td>{{ booking.date }}</td>
+        <td>{{ booking.time|time:"g:i A" }}</td>
         <td>
-          <span class="badge bg-{% if b.status == 'confirmed' %}success{% elif b.status == 'pending' %}warning{% else %}danger{% endif %}">
-            {{ b.status|title }}
+          <span class="badge bg-{% if booking.status == 'confirmed' %}success{% elif booking.status == 'pending' %}warning{% else %}danger{% endif %}">
+            {{ booking.status|title }}
           </span>
         </td>
-        <td>{{ b.notes|default:"—"|linebreaksbr }}</td>
+        <td>{{ booking.notes|default:"—"|linebreaksbr }}</td>
         <td class="text-center">
-          <a href="{% url 'booking_edit' b.pk %}" class="btn btn-sm btn-primary">Edit</a>
-          <a href="{% url 'booking_delete' b.pk %}" class="btn btn-sm btn-danger ms-1">Cancel</a>
+          <a href="{% url 'booking_edit' booking.pk %}" class="btn btn-sm btn-primary">Edit</a>
+          <a href="{% url 'booking_delete' booking.pk %}" class="btn btn-sm btn-danger ms-1">Cancel</a>
         </td>
       </tr>
       {% endfor %}
