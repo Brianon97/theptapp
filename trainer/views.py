@@ -20,7 +20,7 @@ def booking_create(request):
             booking.client = request.user
             booking.save()
             messages.success(request, 'Booking created successfully!')
-            return redirect('booking_list')
+            return redirect('trainer:booking_list')
     else:
         form = BookingForm()
     return render(request, 'trainer/booking_form.html', {'form': form})
@@ -64,6 +64,39 @@ def signup(request):
             )
             login(request, user)
             messages.success(request, f'Welcome {user.username}!')
-            return redirect('booking_list')
+            return redirect('trainer:booking_list')
     
     return render(request, 'signup.html')
+
+# trainer/views.py  (add this function)
+@login_required
+def booking_edit(request, pk):
+    booking = Booking.objects.get(pk=pk, client=request.user)  # security: only own bookings
+
+    if request.method == 'POST':
+        form = BookingForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Booking updated successfully!')
+            return redirect('trainer:booking_list')
+    else:
+        form = BookingForm(instance=booking)
+
+    return render(request, 'trainer/booking_form.html', {
+        'form': form,
+        'booking': booking,
+        'is_edit': True  # optional: to change title in template
+    })
+# trainer/views.py
+from django.shortcuts import get_object_or_404
+
+@login_required
+def booking_delete(request, pk):
+    booking = get_object_or_404(Booking, pk=pk, client=request.user)  # only own booking
+    
+    if request.method == 'POST':
+        booking.delete()
+        messages.success(request, 'Booking cancelled successfully.')
+        return redirect('trainer:booking_list')
+    
+    return render(request, 'trainer/booking_confirm_delete.html', {'booking': booking})

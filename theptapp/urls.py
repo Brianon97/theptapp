@@ -31,7 +31,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(
         template_name='login.html',
         redirect_authenticated_user=True,
-        extra_context={'next': 'booking_list'}
+        extra_context={'next': 'trainer:booking_list'}
     ), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('bookings/', include(('trainer.urls', 'trainer'), namespace='trainer')),
