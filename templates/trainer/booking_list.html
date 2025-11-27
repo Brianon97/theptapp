@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2 class="mb-4">My Bookings</h2>
-<a href="{% url 'booking_create' %}" class="btn btn-success mb-3">
+<a href="{% url 'trainer:booking_create' %}" class="btn btn-success mb-3">
   + New Booking
 </a>
 
@@ -32,8 +32,8 @@
         </td>
         <td>{{ booking.notes|default:"—"|linebreaksbr }}</td>
         <td class="text-center">
-          <a href="{% url 'booking_edit' booking.pk %}" class="btn btn-sm btn-primary">Edit</a>
-          <a href="{% url 'booking_delete' booking.pk %}" class="btn btn-sm btn-danger ms-1">Cancel</a>
+          <a href="{% url 'trainer:booking_edit' booking.pk %}" class="btn btn-sm btn-primary">Edit</a>
+          <a href="{% url 'trainer:booking_delete' booking.pk %}" class="btn btn-sm btn-danger ms-1">Cancel</a>
           
         </td>
       </tr>
@@ -43,7 +43,7 @@
 </div>
 {% else %}
 <div class="alert alert-info" role="alert">
-  No bookings yet. <a href="{% url 'booking_create' %}">Create your first one!</a>
+  No bookings yet. <a href="{% url 'trainer:booking_create' %}">Create your first one!</a>
 </div>
 {% endif %}
 {% endblock %}

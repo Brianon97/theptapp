@@ -34,7 +34,7 @@ urlpatterns = [
         extra_context={'next': 'booking_list'}
     ), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
-    path('bookings/', include('trainer.urls')),
+    path('bookings/', include(('trainer.urls', 'trainer'), namespace='trainer')),
 
     
 ]

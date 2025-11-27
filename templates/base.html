@@ -48,7 +48,7 @@
               Hi, {{ user.get_short_name|default:user.username }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="{% url 'booking_list' %}">My Bookings</a></li>
+              <li><a class="dropdown-item" href="{% url 'trainer:booking_list' %}">My Bookings</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
             </ul>

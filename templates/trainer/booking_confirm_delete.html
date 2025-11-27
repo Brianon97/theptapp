@@ -20,7 +20,7 @@
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Yes, Cancel Booking</button>
                     </form>
-                    <a href="{% url 'booking_list' %}" class="btn btn-secondary">No, Keep It</a>
+                    <a href="{% url 'trainer:booking_list' %}" class="btn btn-secondary">No, Keep It</a>
                 </div>
             </div>
         </div>
