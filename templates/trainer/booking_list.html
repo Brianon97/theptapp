@@ -32,8 +32,8 @@
         </td>
         <td>{{ booking.notes|default:"—"|linebreaksbr }}</td>
         <td class="text-center">
-          <a href="{% url 'trainer:booking_edit' booking.pk %}" class="btn btn-sm btn-primary">Edit</a>
-          <a href="{% url 'trainer:booking_delete' booking.pk %}" class="btn btn-sm btn-danger ms-1">Cancel</a>
+          <a href="{% url 'booking_edit' booking.pk %}" class="btn btn-sm btn-primary">Edit</a>
+          <a href="{% url 'booking_delete' booking.pk %}" class="btn btn-sm btn-danger ms-1">Cancel</a>
           
         </td>
       </tr>
