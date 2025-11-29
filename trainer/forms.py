@@ -5,15 +5,16 @@ from .models import Booking
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ['date', 'time', 'notes']
+        fields = ['date', 'time', 'notes', 'status']    # ← added 'status'
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
-            'notes': forms.Textarea(attrs={'rows': 3, 'class': 'form-control', 'placeholder': 'Any special requests?'})
+            'notes': forms.Textarea(attrs={'rows': 4, 'class': 'form-control', 'placeholder': 'Any special requests?'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }
         labels = {
             'date': 'Date',
             'time': 'Time',
-            'notes': 'Notes (optional)'
+            'notes': 'Notes (optional)',
+            'status': 'Status',
         }
-    
