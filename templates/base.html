@@ -17,6 +17,28 @@
     footer a:hover { color: white; }
   </style>
 </head>
+<!-- Put this just before </body> in base.html or dashboard.html -->
+{% if user.is_staff %}
+<div id="notification-toast" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+  <div id="liveToast" class="toast hide" role="alert">
+    <div class="toast-header bg-primary text-white">
+      <strong class="me-auto">New Booking Alert</strong>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+    </div>
+    <div class="toast-body" id="toast-body">
+      <!-- message goes here -->
+    </div>
+  </div>
+</div>
+
+<!-- Bell icon in navbar (optional but nice) -->
+<li class="nav-item">
+  <span class="position-relative">
+    <i class="bi bi-bell-fill fs-4"></i>
+    <span id="notification-badge" class="badge bg-danger rounded-pill position-absolute" style="top:-8px; right:-8px; display:none;">0</span>
+  </span>
+</li>
+{% endif %}
 <body>
 
 <!-- NAVBAR — CLEAN & PROFESSIONAL -->
