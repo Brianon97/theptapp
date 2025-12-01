@@ -5,6 +5,9 @@
 <h2 class="mb-4">New Booking</h2>
 <form method="post" novalidate>
   {% csrf_token %}
+
+{{ form.status.as_hidden }}
+
   <div class="row g-3">
     <div class="col-md-6">
       {{ form.date.label_tag }}
