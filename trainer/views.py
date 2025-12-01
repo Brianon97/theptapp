@@ -1,4 +1,4 @@
-# trainer/views.py ← FINAL CORRECTED VERSION – USE THIS
+# trainer/views.py ← COPY AND PASTE THIS ENTIRE FILE EXACTLY
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -14,7 +14,6 @@ from .forms import BookingForm
 def booking_list(request):
     bookings = request.user.bookings.all().order_by('date', 'time')
     return render(request, 'trainer/booking_list.html', {'bookings': bookings})
-    # ↑ Fixed: was 'trainer/booking_form.html' → wrong template!
 
 
 @login_required
@@ -26,7 +25,7 @@ def booking_create(request):
             booking.client = request.user
             booking.save()
             messages.success(request, 'Your booking has been created successfully!')
-            return redirect('trainer:booking_list')  # ← Fixed: URL name, not template!
+            return redirect('trainer:booking_list')
     else:
         form = BookingForm(is_staff=request.user.is_staff)
 
@@ -45,7 +44,7 @@ def booking_edit(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Booking updated successfully!')
-            return redirect('trainer:booking_list')  # ← Fixed: URL name!
+            return redirect('trainer:booking_list')
     else:
         form = BookingForm(instance=booking, is_staff=request.user.is_staff)
 
@@ -63,10 +62,9 @@ def booking_delete(request, pk):
     if request.method == 'POST':
         booking.delete()
         messages.success(request, 'Booking cancelled successfully.')
-        return redirect('trainer:booking_list')  # ← Fixed: URL name!
+        return redirect('trainer:booking_list')
 
     return render(request, 'trainer/booking_confirm_delete.html', {'booking': booking})
-    # ↑ Fixed: added 'trainer/' prefix
 
 
 def signup(request):
