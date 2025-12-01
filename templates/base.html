@@ -57,33 +57,43 @@
         <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
 
-        <!-- Always show Sign Up -->
-        <li class="nav-item ms-3">
-          <a href="{% url 'trainer:signup' %}" class="btn btn-signup text-white px-4">Sign Up</a>
-        </li>
+        <!-- Sign Up button (always visible for guests) -->
+        {% if not user.is_authenticated %}
+          <li class="nav-item ms-3">
+            <a href="{% url 'trainer:signup' %}" class="btn btn-signup text-white px-4">Sign Up</a>
+          </li>
+        {% endif %}
 
         {% if user.is_authenticated %}
           <li class="nav-item dropdown ms-3">
-            <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle text-light d-flex align-items-center" 
+               href="#" role="button" data-bs-toggle="dropdown">
               Hi, {{ user.get_short_name|default:user.username }}
+
+              <!-- Trainer notification badge (only for staff) -->
+              {% if user.is_staff %}
+                <span class="position-relative ms-2">
+                  <i class="bi bi-bell-fill"></i>
+                  <span id="notification-badge"
+                        class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle"
+                        style="font-size: 0.65rem; display: none;">
+                    <span id="notification-count">0</span>
+                  </span>
+                </span>
+              {% endif %}
             </a>
+
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="{% url 'trainer:booking_list' %}">My Bookings</a></li>
-              <li><a class="dropdown-item" href="{% url 'trainer:booking_create' %}">New Booking</a></li>
+              <li><a class="dropdown-item" href="{% url 'trainer:booking_create' %}">
+                <strong>+ New Booking</strong>
+              </a></li>
 
-              <!-- Trainer real-time notification badge -->
               {% if user.is_staff %}
                 <li><hr class="dropdown-divider"></li>
-                <li class="dropdown-item">
-                  <span class="position-relative">
-                    <i class="bi bi-bell-fill"></i>
-                    <span id="notification-badge" 
-                          class="badge bg-danger rounded-pill position-absolute translate-middle" 
-                          style="top: -2px; right: -10px; font-size: 0.65rem; display: none;">
-                      0
-                    </span>
-                  </span>
-                  <strong>New Bookings</strong>
+                <li class="dropdown-item text-success fw-bold">
+                  <i class="bi bi-bell"></i> New Bookings Pending
+                  <span class="badge bg-danger ms-2" id="dropdown-badge-count">0</span>
                 </li>
               {% endif %}
 
@@ -166,6 +176,33 @@ setInterval(checkForNewBookings, 10000);
 checkForNewBookings();
 </script>
 {% endif %}
+
+<script>
+{% if user.is_authenticated and user.is_staff %}
+  function updateNotifications() {
+    fetch("{% url 'trainer:check_notifications' %}")
+      .then(r => r.json())
+      .then(data => {
+        const badge = document.getElementById('notification-badge');
+        const countEl = document.getElementById('notification-count');
+        const dropdownCount = document.getElementById('dropdown-badge-count');
+        
+        if (data.count > 0) {
+          countEl.textContent = data.count;
+          badge.style.display = 'block';
+          if (dropdownCount) dropdownCount.textContent = data.count;
+        } else {
+          badge.style.display = 'none';
+          if (dropdownCount) dropdownCount.textContent = '0';
+        }
+      });
+  }
+
+  // Refresh every 30 seconds instead of 10 → no spam
+  setInterval(updateNotifications, 30000);
+  updateNotifications(); // run once on page load
+{% endif %}
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
