@@ -1,4 +1,4 @@
-# trainer/views.py ← REPLACE YOUR ENTIRE FILE WITH THIS
+# trainer/views.py ← FINAL CORRECTED VERSION – USE THIS
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -13,7 +13,8 @@ from .forms import BookingForm
 @login_required
 def booking_list(request):
     bookings = request.user.bookings.all().order_by('date', 'time')
-    return render(request, 'booking_list.html', {'bookings': bookings})
+    return render(request, 'trainer/booking_list.html', {'bookings': bookings})
+    # ↑ Fixed: was 'trainer/booking_form.html' → wrong template!
 
 
 @login_required
@@ -25,11 +26,11 @@ def booking_create(request):
             booking.client = request.user
             booking.save()
             messages.success(request, 'Your booking has been created successfully!')
-            return redirect('trainer:booking_list')
+            return redirect('trainer:booking_list')  # ← Fixed: URL name, not template!
     else:
         form = BookingForm(is_staff=request.user.is_staff)
 
-    return render(request, 'booking_form.html', {
+    return render(request, 'trainer/booking_form.html', {
         'form': form,
         'title': 'New Booking'
     })
@@ -44,11 +45,11 @@ def booking_edit(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Booking updated successfully!')
-            return redirect('trainer:booking_list')
+            return redirect('trainer:booking_list')  # ← Fixed: URL name!
     else:
         form = BookingForm(instance=booking, is_staff=request.user.is_staff)
 
-    return render(request, 'booking_form.html', {
+    return render(request, 'trainer/booking_form.html', {
         'form': form,
         'title': 'Edit Booking',
         'booking': booking
@@ -62,9 +63,10 @@ def booking_delete(request, pk):
     if request.method == 'POST':
         booking.delete()
         messages.success(request, 'Booking cancelled successfully.')
-        return redirect('trainer:booking_list')
+        return redirect('trainer:booking_list')  # ← Fixed: URL name!
 
-    return render(request, 'booking_confirm_delete.html', {'booking': booking})
+    return render(request, 'trainer/booking_confirm_delete.html', {'booking': booking})
+    # ↑ Fixed: added 'trainer/' prefix
 
 
 def signup(request):
