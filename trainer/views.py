@@ -26,19 +26,21 @@ def booking_list(request):
 
 
 # trainer/views.py → booking_create (replace the whole function)
+# trainer/views.py → booking_create (replace the whole function)
 @login_required
 def booking_create(request):
     if request.method == 'POST':
-        form = BookingForm(request.POST)
+        form = BookingForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
+            # ← ONLY ONE success message
             messages.success(request, "Booking created successfully!")
             return redirect('trainer:booking_list')
         else:
-            # ← THIS IS THE KEY: show errors when invalid
+            # Optional: show one error message if form invalid
             messages.error(request, "Please correct the errors below.")
     else:
-        form = BookingForm()
+        form = BookingForm(user=request.user)
 
     return render(request, 'trainer/booking_form.html', {
         'form': form,
