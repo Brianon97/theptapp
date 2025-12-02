@@ -16,7 +16,7 @@ class BookingForm(forms.ModelForm):
             'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'notes': forms.Textarea(attrs={'rows': 4, 'class': 'form-control', 'placeholder': 'Any notes...'}),
-            'client_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your full name'}),
+            'client_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter client name'}),
             'client_contact': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone or email'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
         }
