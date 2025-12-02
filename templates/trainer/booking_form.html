@@ -1,6 +1,8 @@
-<!-- templates/trainer/booking_form.html ← REPLACE ENTIRE FILE -->
-{% extends 'base.html' %} {% block title %}{{ title }}{% endblock %} {% block
-content %}
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
 <div class="container my-5">
   <h2 class="mb-4">{{ title }}</h2>
 
@@ -9,9 +11,9 @@ content %}
 
     <div class="row g-3">
       <div class="col-md-6">
-        {{ form.client_name.label_tag }} {{ form.client_name }} {% if
-        form.client_name.errors %}
-        <div class="text-danger small">{{ form.client_name.errors }}</div>
+        {{ form.client_name.label_tag }} {{ form.client_name }}
+        {% if form.client_name.errors %}
+          <div class="text-danger small">{{ form.client_name.errors }}</div>
         {% endif %}
       </div>
 
@@ -21,36 +23,26 @@ content %}
       </div>
 
       <div class="col-md-6">
-        {{ form.date.label_tag }} <span class="text-danger">*</span>
-        {{ form.date }}
+        {{ form.date.label_tag }} <span class="text-danger">*</span> {{ form.date }}
       </div>
       <div class="col-md-6">
-        {{ form.time.label_tag }} <span class="text-danger">*</span>
-        {{ form.time }}
+        {{ form.time.label_tag }} <span class="text-danger">*</span> {{ form.time }}
       </div>
 
       <div class="col-12">
-        <label class="form-label">Notes</label>
-        {{ form.notes }}
+        {{ form.notes.label_tag }} {{ form.notes }}
       </div>
 
       {% if user.is_staff %}
       <div class="col-md-4">
-        <label class="form-label">Status</label>
-        {{ form.status }}
+        {{ form.status.label_tag }} {{ form.status }}
       </div>
       {% endif %}
     </div>
 
     <div class="mt-4">
-      <button type="submit" class="btn btn-success btn-lg px-5">
-        Save Booking
-      </button>
-      <a
-        href="{% url 'trainer:booking_list' %}"
-        class="btn btn-secondary btn-lg ms-2"
-        >Cancel</a
-      >
+      <button type="submit" class="btn btn-success btn-lg px-5">Save Booking</button>
+      <a href="{% url 'trainer:booking_list' %}" class="btn btn-secondary btn-lg ms-2">Cancel</a>
     </div>
   </form>
 </div>
