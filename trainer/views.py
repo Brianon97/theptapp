@@ -1,4 +1,9 @@
-# trainer/views.py ← COPY AND PASTE THIS ENTIRE FILE EXACTLY
+# trainer/views.py
+# MAJOR CHANGES:
+# - Bookings now belong to trainer (not client)
+# - Removed client=request.user checks
+# - Updated notifications to show trainer's own pending bookings
+# - Added is_staff=True on signup (so trainers get notification badge)
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -10,43 +15,54 @@ from .models import Booking
 from .forms import BookingForm
 
 
+# trainer/views.py
 @login_required
 def booking_list(request):
-    bookings = request.user.bookings.all().order_by('date', 'time')
+    if request.user.is_staff:
+        # Trainer sees ALL bookings with client info
+        bookings = Booking.objects.all().select_related('client').order_by('date', 'time')
+    else:
+        # Regular client only sees their own bookings
+        bookings = request.user.bookings.all().order_by('date', 'time')
+
     return render(request, 'trainer/booking_list.html', {'bookings': bookings})
 
+
+# trainer/views.py → replace these two functions
 
 @login_required
 def booking_create(request):
     if request.method == 'POST':
-        form = BookingForm(request.POST, is_staff=request.user.is_staff)
+        form = BookingForm(request.POST, user=request.user)
         if form.is_valid():
-            booking = form.save(commit=False)
-            booking.client = request.user
-            booking.save()
-            messages.success(request, 'Your booking has been created successfully!')
+            booking = form.save()
+            messages.success(request, 'Booking created successfully!')
             return redirect('trainer:booking_list')
     else:
-        form = BookingForm(is_staff=request.user.is_staff)
+        form = BookingForm(user=request.user)
 
     return render(request, 'trainer/booking_form.html', {
         'form': form,
         'title': 'New Booking'
     })
 
-
 @login_required
 def booking_edit(request, pk):
-    booking = get_object_or_404(Booking, pk=pk, client=request.user)
+    booking = get_object_or_404(Booking, pk=pk)
     
+    # Only owner or staff can edit
+    if not request.user.is_staff and booking.client != request.user:
+        messages.error(request, "You can only edit your own bookings.")
+        return redirect('trainer:booking_list')
+
     if request.method == 'POST':
-        form = BookingForm(request.POST, instance=booking, is_staff=request.user.is_staff)
+        form = BookingForm(request.POST, instance=booking, user=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Booking updated successfully!')
+            messages.success(request, 'Booking updated!')
             return redirect('trainer:booking_list')
     else:
-        form = BookingForm(instance=booking, is_staff=request.user.is_staff)
+        form = BookingForm(instance=booking, user=request.user)
 
     return render(request, 'trainer/booking_form.html', {
         'form': form,
@@ -57,13 +73,12 @@ def booking_edit(request, pk):
 
 @login_required
 def booking_delete(request, pk):
-    booking = get_object_or_404(Booking, pk=pk, client=request.user)
-    
+    booking = get_object_or_404(Booking, pk=pk, trainer=request.user)
     if request.method == 'POST':
+        client_name = booking.client_name
         booking.delete()
-        messages.success(request, 'Booking cancelled successfully.')
+        messages.success(request, f'Booking for {client_name} cancelled.')
         return redirect('trainer:booking_list')
-
     return render(request, 'trainer/booking_confirm_delete.html', {'booking': booking})
 
 
@@ -72,8 +87,10 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.is_staff = True  # So they can see notifications + access admin
+            user.save()
             login(request, user)
-            messages.success(request, 'Welcome! Your account has been created.')
+            messages.success(request, 'Welcome, Trainer! Your account is ready.')
             return redirect('trainer:booking_list')
     else:
         form = UserCreationForm()
@@ -82,10 +99,8 @@ def signup(request):
 
 @login_required
 def check_notifications(request):
-    if not request.user.is_staff:
-        return JsonResponse({'count': 0})
-
-    pending = Booking.objects.filter(status='pending').order_by('-created_at')
+    # Only show pending bookings for THIS trainer
+    pending = Booking.objects.filter(trainer=request.user, status='pending').order_by('-created_at')
     count = pending.count()
     latest = pending.first()
 
@@ -93,10 +108,9 @@ def check_notifications(request):
         data = {
             'count': count,
             'latest': {
-                'client_name': latest.client.get_full_name() or latest.client.username,
+                'client_name': latest.client_name,
                 'date': latest.date.strftime('%b %d'),
                 'time': latest.time.strftime('%I:%M %p'),
-                'status_display': latest.get_status_display()
             }
         }
     else:
