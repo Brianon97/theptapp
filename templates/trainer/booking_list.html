@@ -1,23 +1,21 @@
 <!-- templates/booking_list.html -->
-{% extends 'base.html' %}
-{% load static %}
-{% block title %}My Bookings{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block title %}My Bookings{%
+endblock %} {% block content %}
 <div class="container my-5">
   <h2 class="mb-4">My Bookings</h2>
 
   <!-- SUCCESS MESSAGES (Create / Edit / Cancel) -->
-  {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <i class="fas fa-check-circle me-2"></i>{{ message }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    {% endfor %}
-  {% endif %}
+  {% if messages %} {% for message in messages %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="fas fa-check-circle me-2"></i>{{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %} {% endif %}
 
-  <a href="{% url 'trainer:booking_create' %}" class="btn btn-success btn-lg mb-4">
+  <a
+    href="{% url 'trainer:booking_create' %}"
+    class="btn btn-success btn-lg mb-4"
+  >
     <i class="fas fa-plus me-2"></i>New Booking
   </a>
 
@@ -37,22 +35,34 @@
       <tbody>
         {% for booking in bookings %}
         <tr>
+          <td>
+            <strong>{{ booking.client_name }}</strong><br />
+            <small class="text-muted"
+              >{{ booking.client_contact|default:"No contact info" }}</small
+            >
+          </td>
           <td><strong>{{ booking.date|date:"D, M j Y" }}</strong></td>
           <td>{{ booking.time|time:"g:i A" }}</td>
           <td>
-            <span class="badge bg-{% if booking.status == 'confirmed' %}success{% elif booking.status == 'pending' %}warning{% else %}secondary{% endif %} fs-6">
+            <span
+              class="badge bg-{% if booking.status == 'confirmed' %}success{% elif booking.status == 'pending' %}warning{% else %}secondary{% endif %} fs-6"
+            >
               {{ booking.status|title }}
             </span>
           </td>
           <td>{{ booking.notes|default:"—"|linebreaksbr }}</td>
           <td class="text-center">
             <!-- BIG, VISIBLE EDIT & CANCEL BUTTONS -->
-            <a href="{% url 'trainer:booking_edit' booking.pk %}" 
-               class="btn btn-primary">
+            <a
+              href="{% url 'trainer:booking_edit' booking.pk %}"
+              class="btn btn-primary"
+            >
               <i class="fas fa-edit"></i> Edit
             </a>
-            <a href="{% url 'trainer:booking_delete' booking.pk %}" 
-               class="btn btn-danger ms-2">
+            <a
+              href="{% url 'trainer:booking_delete' booking.pk %}"
+              class="btn btn-danger ms-2"
+            >
               <i class="fas fa-trash"></i> Cancel
             </a>
           </td>
