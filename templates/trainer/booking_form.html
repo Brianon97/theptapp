@@ -1,4 +1,4 @@
-<!-- templates/trainer/booking_form.html -->
+<!-- templates/trainer/booking_form.html ← REPLACE ENTIRE FILE -->
 {% extends 'base.html' %}
 {% block title %}{{ title }}{% endblock %}
 
@@ -9,54 +9,41 @@
   <form method="post" novalidate>
     {% csrf_token %}
 
-    <div class="row g-4">
-      {% if user.is_staff %}
+    <div class="row g-3">
       <div class="col-md-6">
-        {{ form.client.label_tag }}
-        {{ form.client }}
-        {% if form.client.errors %}
-          <div class="text-danger small">{{ form.client.errors }}</div>
-        {% endif %}
+        <label class="form-label">Your Name <span class="text-danger">*</span></label>
+        {{ form.client_name }}
       </div>
-
       <div class="col-md-6">
-        {{ form.client_contact.label_tag }}
-        <small class="text-muted d-block mb-2">{{ form.client_contact.help_text }}</small>
+        <label class="form-label">Your Contact (Phone or Email)</label>
         {{ form.client_contact }}
+        <small class="text-muted">Optional – for reminders</small>
       </div>
-      {% else %}
-        {{ form.client }}{{ form.client_contact }}{{ form.status }}
-      {% endif %}
 
       <div class="col-md-6">
-        {{ form.date.label_tag }}
+        <label class="form-label">Date <span class="text-danger">*</span></label>
         {{ form.date }}
-        {% if form.date.errors %}<div class="text-danger small">{{ form.date.errors }}</div>{% endif %}
       </div>
-
       <div class="col-md-6">
-        {{ form.time.label_tag }}
+        <label class="form-label">Time <span class="text-danger">*</span></label>
         {{ form.time }}
-        {% if form.time.errors %}<div class="text-danger small">{{ form.time.errors }}</div>{% endif %}
       </div>
 
       <div class="col-12">
-        {{ form.notes.label_tag }}
+        <label class="form-label">Notes</label>
         {{ form.notes }}
       </div>
 
       {% if user.is_staff %}
       <div class="col-md-4">
-        {{ form.status.label_tag }}
+        <label class="form-label">Status</label>
         {{ form.status }}
       </div>
       {% endif %}
     </div>
 
     <div class="mt-4">
-      <button type="submit" class="btn btn-success btn-lg">
-        <i class="fas fa-save me-2"></i>Save Booking
-      </button>
+      <button type="submit" class="btn btn-success btn-lg px-5">Save Booking</button>
       <a href="{% url 'trainer:booking_list' %}" class="btn btn-secondary btn-lg ms-2">Cancel</a>
     </div>
   </form>
