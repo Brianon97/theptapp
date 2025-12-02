@@ -1,8 +1,6 @@
-# trainer/forms.py ← REPLACE ENTIRE FILE
+# trainer/forms.py ← FINAL WORKING VERSION
 from django import forms
 from .models import Booking
-
-
 
 class BookingForm(forms.ModelForm):
     class Meta:
@@ -18,8 +16,9 @@ class BookingForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # Get user if passed from view
         super().__init__(*args, **kwargs)
-        # Everyone sees the same simple form
+
         self.fields['client_name'].label = "Client Name"
         self.fields['client_contact'].label = "Client Contact (Phone or Email)"
         self.fields['client_name'].required = True
@@ -27,9 +26,9 @@ class BookingForm(forms.ModelForm):
         self.fields['notes'].required = False
         self.fields['date'].required = True
         self.fields['time'].required = True
-        
-        # Optional: hide status from regular users
-        if not kwargs.get('instance') and not getattr(kwargs.get('request'), 'user', None):
-            pass  # keep status visible
-        # Or hide it completely if you want:
-        # self.fields['status'].widget = forms.HiddenInput()
+
+        # Hide status from non-staff users
+        if not user or not user.is_staff:
+            self.fields['status'].widget = forms.HiddenInput()
+            self.fields['status'].initial = 'pending'
+            self.fields['status'].required = False
