@@ -1,8 +1,6 @@
 <!-- templates/trainer/booking_form.html ← REPLACE ENTIRE FILE -->
-{% extends 'base.html' %}
-{% block title %}{{ title }}{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}{{ title }}{% endblock %} {% block
+content %}
 <div class="container my-5">
   <h2 class="mb-4">{{ title }}</h2>
 
@@ -11,21 +9,23 @@
 
     <div class="row g-3">
       <div class="col-md-6">
-        <label class="form-label">Your Name <span class="text-danger">*</span></label>
-        {{ form.client_name }}
+        {{ form.client_name.label_tag }} {{ form.client_name }} {% if
+        form.client_name.errors %}
+        <div class="text-danger small">{{ form.client_name.errors }}</div>
+        {% endif %}
       </div>
+
       <div class="col-md-6">
-        <label class="form-label">Your Contact (Phone or Email)</label>
-        {{ form.client_contact }}
+        {{ form.client_contact.label_tag }} {{ form.client_contact }}
         <small class="text-muted">Optional – for reminders</small>
       </div>
 
       <div class="col-md-6">
-        <label class="form-label">Date <span class="text-danger">*</span></label>
+        {{ form.date.label_tag }} <span class="text-danger">*</span>
         {{ form.date }}
       </div>
       <div class="col-md-6">
-        <label class="form-label">Time <span class="text-danger">*</span></label>
+        {{ form.time.label_tag }} <span class="text-danger">*</span>
         {{ form.time }}
       </div>
 
@@ -43,8 +43,14 @@
     </div>
 
     <div class="mt-4">
-      <button type="submit" class="btn btn-success btn-lg px-5">Save Booking</button>
-      <a href="{% url 'trainer:booking_list' %}" class="btn btn-secondary btn-lg ms-2">Cancel</a>
+      <button type="submit" class="btn btn-success btn-lg px-5">
+        Save Booking
+      </button>
+      <a
+        href="{% url 'trainer:booking_list' %}"
+        class="btn btn-secondary btn-lg ms-2"
+        >Cancel</a
+      >
     </div>
   </form>
 </div>
