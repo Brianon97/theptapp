@@ -3,12 +3,12 @@ from django import forms
 from .models import Booking
 
 # trainer/forms.py ← TEMPORARY (just to let Django start)
-class BookingForm(forms.ModelForm):
+"""class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ['date', 'time', 'notes', 'status']  # ← ONLY these for 30 seconds
+        fields = ['date', 'time', 'notes', 'status']  """# ← ONLY these for 30 seconds
 
-"""class BookingForm(forms.ModelForm):
+class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['client_name', 'client_contact', 'date', 'time', 'notes', 'status']
@@ -32,4 +32,4 @@ class BookingForm(forms.ModelForm):
         if not kwargs.get('instance') and not getattr(kwargs.get('request'), 'user', None):
             pass  # keep status visible
         # Or hide it completely if you want:
-        # self.fields['status'].widget = forms.HiddenInput()"""
+        # self.fields['status'].widget = forms.HiddenInput()
