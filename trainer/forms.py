@@ -25,6 +25,8 @@ class BookingForm(forms.ModelForm):
         self.fields['client_name'].required = True
         self.fields['client_contact'].required = False
         self.fields['notes'].required = False
+        self.fields['date'].required = True
+        self.fields['time'].required = True
         
         # Optional: hide status from regular users
         if not kwargs.get('instance') and not getattr(kwargs.get('request'), 'user', None):
