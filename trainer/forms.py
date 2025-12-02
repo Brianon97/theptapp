@@ -20,6 +20,8 @@ class BookingForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Everyone sees the same simple form
+        self.fields['client_name'].label = "Client Name"
+        self.fields['client_contact'].label = "Client Contact (Phone or Email)"
         self.fields['client_name'].required = True
         self.fields['client_contact'].required = False
         self.fields['notes'].required = False
