@@ -2,11 +2,7 @@
 from django import forms
 from .models import Booking
 
-# trainer/forms.py ← TEMPORARY (just to let Django start)
-"""class BookingForm(forms.ModelForm):
-    class Meta:
-        model = Booking
-        fields = ['date', 'time', 'notes', 'status']  """# ← ONLY these for 30 seconds
+
 
 class BookingForm(forms.ModelForm):
     class Meta:
