@@ -6,7 +6,7 @@
 <div class="container my-5">
   <h2 class="mb-4">{{ title }}</h2>
 
-  <form method="post" novalidate>
+  <form method="post" novalidate onsubmit="disableSubmit(this)">
     {% csrf_token %}
     {% if form.non_field_errors or form.errors %}
 <div class="alert alert-danger">
@@ -60,9 +60,19 @@
     </div>
 
     <div class="mt-4">
-      <button type="submit" class="btn btn-success btn-lg px-5">Save Booking</button>
+      <button id="save-booking" type="submit" class="btn btn-success btn-lg px-5">Save Booking</button>
       <a href="{% url 'trainer:booking_list' %}" class="btn btn-secondary btn-lg ms-2">Cancel</a>
     </div>
   </form>
 </div>
+<script>
+  function disableSubmit(form){
+    const btn = form.querySelector('button[type="submit"]');
+    if(btn){
+      btn.disabled = true;
+      btn.innerText = 'Saving...';
+    }
+    return true;
+  }
+</script>
 {% endblock %}
