@@ -14,33 +14,23 @@ from .forms import BookingForm
 
 @login_required
 def booking_list(request):
-    if request.user.is_staff:
-        # Trainer sees ALL bookings
-        bookings = Booking.objects.all().order_by('-date', 'time')
-    else:
-        # Regular user only sees bookings they made (by name)
-        user_name = request.user.get_full_name() or request.user.username
-        bookings = Booking.objects.filter(client_name__iexact=user_name).order_by('-date', 'time')
-
+    # Each trainer sees ONLY their own bookings
+    bookings = request.user.bookings.all().order_by('-date', 'time')
     return render(request, 'trainer/booking_list.html', {'bookings': bookings})
 
 
-# trainer/views.py → booking_create (replace the whole function)
-# trainer/views.py → booking_create (replace the whole function)
 @login_required
 def booking_create(request):
     if request.method == 'POST':
-        form = BookingForm(request.POST, user=request.user)
+        form = BookingForm(request.POST)
         if form.is_valid():
-            form.save()
-            # ← ONLY ONE success message
+            booking = form.save(commit=False)
+            booking.trainer = request.user        # ← THIS IS THE KEY LINE
+            booking.save()
             messages.success(request, "Booking created successfully!")
             return redirect('trainer:booking_list')
-        else:
-            # Optional: show one error message if form invalid
-            messages.error(request, "Please correct the errors below.")
     else:
-        form = BookingForm(user=request.user)
+        form = BookingForm()
 
     return render(request, 'trainer/booking_form.html', {
         'form': form,
@@ -50,13 +40,7 @@ def booking_create(request):
 
 @login_required
 def booking_edit(request, pk):
-    booking = get_object_or_404(Booking, pk=pk)
-
-    # Only staff or person whose name matches can edit
-    user_name = request.user.get_full_name() or request.user.username
-    if not request.user.is_staff and booking.client_name.strip().lower() != user_name.strip().lower():
-        messages.error(request, "You can only edit your own bookings.")
-        return redirect('trainer:booking_list')
+    booking = get_object_or_404(Booking, pk=pk, trainer=request.user)  # ← only own bookings
 
     if request.method == 'POST':
         form = BookingForm(request.POST, instance=booking)
@@ -74,9 +58,11 @@ def booking_edit(request, pk):
     })
 
 
+
 @login_required
 def booking_delete(request, pk):
-    booking = get_object_or_404(Booking, pk=pk)
+    booking = get_object_or_404(Booking, pk=pk, trainer=request.user)
+    # ... rest same
     
     user_name = request.user.get_full_name() or request.user.username
     if not request.user.is_staff and booking.client_name.strip().lower() != user_name.strip().lower():

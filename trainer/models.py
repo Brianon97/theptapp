@@ -1,9 +1,17 @@
-# trainer/models.py ← REPLACE THE WHOLE MODEL WITH THIS
+# trainer/models.py
 from django.db import models
+from django.contrib.auth.models import User
 
 class Booking(models.Model):
-    client_name = models.CharField(max_length=100)                    # ← New!
-    client_contact = models.CharField(max_length=100, blank=True)      # ← New!
+    trainer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='bookings',
+        null=True,      # ← ADD THIS
+        blank=True      # ← AND THIS
+    )
+    client_name = models.CharField(max_length=100)
+    client_contact = models.CharField(max_length=100, blank=True)
     date = models.DateField()
     time = models.TimeField()
     notes = models.TextField(blank=True)
@@ -15,4 +23,4 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.client_name} – {self.date} {self.time}"
+        return f"{self.client_name} → {self.trainer.get_full_name() or self.trainer.username}"
