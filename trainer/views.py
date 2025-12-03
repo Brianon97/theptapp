@@ -22,6 +22,28 @@ def booking_list(request):
 @login_required
 def booking_create(request):
     if request.method == 'POST':
+        form = BookingForm(request.POST, user=request.user)
+        if form.is_valid():
+            booking = form.save(commit=False)
+
+            # If trainer
+            if request.user.is_staff:
+                booking.trainer = request.user
+
+            # If client
+            else:
+                booking.client_user = request.user
+
+            booking.save()
+            messages.success(request, "Booking created!")
+            return redirect('trainer:booking_list')
+
+    else:
+        form = BookingForm(user=request.user)
+
+    return render(request, 'trainer/booking_form.html', {'form': form})
+
+    if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
             booking = form.save(commit=False)
