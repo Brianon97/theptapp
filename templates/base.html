@@ -91,18 +91,7 @@
   </div>
 </nav>
 
-<!-- DJANGO MESSAGES - CONSUME ONCE, NO DUPLICATES -->
-{% if messages %}
-  {% for message in messages %}
-    <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show position-fixed" 
-         style="top: 1rem; right: 1rem; z-index: 9999; min-width: 300px;" role="alert">
-      <strong>
-        {% if 'success' in message.tags %}Success!{% elif 'error' in message.tags %}Error!{% else %}Info{% endif %}
-      </strong> {{ message }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  {% endfor %}
-{% endif %}
+
 
 
 
