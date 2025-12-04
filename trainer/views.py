@@ -10,6 +10,7 @@ from .models import Booking
 from .forms import BookingForm
 from django.db.models import Q
 from django import forms
+from django.contrib.auth.models import User
 
 
 
