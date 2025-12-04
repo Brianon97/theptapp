@@ -22,28 +22,36 @@ def booking_list(request):
         bookings = request.user.bookings_as_client.all().order_by('-date', 'time')
     return render(request, 'trainer/booking_list.html', {'bookings': bookings})
 
+# In views.py → booking_create function
 @login_required
 def booking_create(request):
     if request.method == 'POST':
         form = BookingForm(request.POST, user=request.user)
         if form.is_valid():
             booking = form.save(commit=False)
-            if request.user.is_staff:
-                booking.trainer = request.user
-                if form.cleaned_data.get('client'):
-                    selected_client = form.cleaned_data['client']
-                    booking.client = selected_client
-                    booking.client_name = selected_client.get_full_name() or selected_client.username
-                    booking.client_contact = selected_client.email or form.cleaned_data['client_contact']
+            booking.trainer = request.user
+
+            if request.user.is_staff and form.cleaned_data.get('client'):
+                selected_client = form.cleaned_data['client']
+                booking.client = selected_client
+                booking.client_name = selected_client.get_full_name() or selected_client.username
+                booking.client_contact = selected_client.email
             else:
+                # Client booking themselves
                 booking.client = request.user
-                booking.trainer = form.cleaned_data['trainer']
+                booking.client_name = request.user.get_full_name() or request.user.username
+                booking.client_contact = request.user.email
+
             booking.save()
-            messages.success(request, "Booking created!")
+            messages.success(request, "Booking created successfully!")
             return redirect('trainer:booking_list')
     else:
         form = BookingForm(user=request.user)
-    return render(request, 'trainer/booking_form.html', {'form': form, 'title': 'New Booking'})
+
+    return render(request, 'trainer/booking_form.html', {
+        'form': form,
+        'title': 'New Booking'
+    })
 
 @login_required
 def booking_edit(request, pk):
@@ -85,22 +93,6 @@ def booking_delete(request, pk):
         return redirect('trainer:booking_list')
 
     return render(request, 'trainer/booking_confirm_delete.html', {'booking': booking})
-
-def signup(request):
-    # Trainer signup
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            user.is_staff = True
-            user.save()
-            login(request, user)
-            messages.success(request, 'Welcome, Trainer! Your account is ready.')
-            return redirect('trainer:booking_list')
-    else:
-        form = UserCreationForm()
-    return render(request, 'signup.html', {'form': form})
-
 
 
 class SignUpForm(UserCreationForm):
@@ -162,3 +154,14 @@ def check_notifications(request):
     else:
         data = {'count': 0}
     return JsonResponse(data)
+
+# trainer/views.py
+@login_required
+def client_profile(request, user_id):
+    client = get_object_or_404(User, id=user_id, is_staff=False)
+    bookings = client.bookings_as_client.all().order_by('-date', 'time')
+    
+    return render(request, 'trainer/client_profile.html', {
+        'client': client,
+        'bookings': bookings
+    })
