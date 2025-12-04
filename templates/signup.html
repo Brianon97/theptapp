@@ -1,4 +1,5 @@
-{% extends 'base.html' %}
+<!-- templates/signup.html -->  <!-- ← directly in templates/, no subfolder -->
+{% extends "base.html" %}
 {% block title %}Sign Up - The PT App{% endblock %}
 
 {% block content %}
@@ -15,35 +16,77 @@
 
           <form method="post" novalidate>
             {% csrf_token %}
-            
-            <div class="mb-3">
-              <label class="form-label">Full Name</label>
-              <input type="text" name="full_name" class="form-control form-control-lg" required>
-            </div>
-            
-            <div class="mb-3">
-              <label class="form-label">Username</label>
-              <input type="text" name="username" class="form-control form-control-lg" required>
-            </div>
-            
-            <div class="mb-3">
-              <label class="form-label">Email</label>
-              <input type="email" name="email" class="form-control form-control-lg" required>
-            </div>
-            
+
+            <!-- THIS IS THE FIXED PART – proper radio buttons with name="role" -->
             <div class="mb-4">
-              <label class="form-label">Password</label>
-              <input type="password" name="password" class="form-control form-control-lg" required>
+              <label class="form-label fw-bold">I am signing up as:</label>
+              <div class="row g-3">
+                <div class="col-6">
+                  <input type="radio" name="role" value="client" id="id_role_0" class="btn-check" required>
+                  <label class="btn btn-outline-success w-100 py-3" for="id_role_0">
+                    <i class="fas fa-calendar-check fa-lg mb-2 d-block"></i>
+                    <strong>Client</strong><br>
+                    <small>Book sessions</small>
+                  </label>
+                </div>
+                <div class="col-6">
+                  <input type="radio" name="role" value="trainer" id="id_role_1" class="btn-check" required>
+                  <label class="btn btn-outline-primary w-100 py-3" for="id_role_1">
+                    <i class="fas fa-dumbbell fa-lg mb-2 d-block"></i>
+                    <strong>Trainer</strong><br>
+                    <small>Receive bookings</small>
+                  </label>
+                </div>
+              </div>
+              {% if form.role.errors %}
+                <div class="text-danger small mt-2">{{ form.role.errors }}</div>
+              {% endif %}
             </div>
 
+            <!-- Rest of your fields – using {{ form.field_name }} is safer -->
+            <div class="mb-3">
+              <label class="form-label">Username <span class="text-danger">*</span></label>
+              {{ form.username }}
+              {% if form.username.errors %}<small class="text-danger">{{ form.username.errors|join:", " }}</small>{% endif %}
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">First Name</label>
+                {{ form.first_name }}
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Last Name</label>
+                {{ form.last_name }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email (optional)</label>
+              {{ form.email }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Password <span class="text-danger">*</span></label>
+              {{ form.password1 }}
+            </div>
+            <div class="mb-4">
+              {{ form.password2 }}
+              <small class="text-muted">Confirm password</small>
+            </div>
+
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+
             <button type="submit" class="btn btn-primary btn-lg w-100">
-              Create Account
+              <i class="fas fa-user-plus me-2"></i>Create Account
             </button>
-            
-            <p class="text-center mt-4 text-muted">
-              Already have an account? <a href="{% url 'login' %}">Log in here</a>
-            </p>
           </form>
+
+          <p class="text-center mt-4 text-muted">
+            Already have an account? <a href="{% url 'login' %}">Log in here</a>
+          </p>
         </div>
       </div>
     </div>
