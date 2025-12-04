@@ -38,27 +38,20 @@
         <tr>
           <!-- CLIENT NAME + EMAIL BELOW (clickable if real user) -->
           <td>
-            {% if booking.client %} {% if booking.client %} {% url
-            'trainer:client_detail' booking.client.id as client_url %} {% if
-            client_url %}
-            <a
-              href="{{ client_url }}"
-              class="text-decoration-none fw-bold text-primary hover-underline"
-            >
-              {{ booking.client.get_full_name|default:booking.client.username }}
-            </a>
-            {% else %}
-            <strong
-              >{{ booking.client.get_full_name|default:booking.client.username
-              }}</strong
-            >
-            {% endif %} {% else %} ... {% endif %} {% if booking.client.email %}
-            <br /><small class="text-muted">{{ booking.client.email }}</small>
-            {% endif %} {% else %}
-            <strong>{{ booking.client_name|default:"(No name)" }}</strong>
-            {% if booking.client_contact %}
-            <br /><small class="text-muted">{{ booking.client_contact }}</small>
-            {% endif %} {% endif %}
+           {% if booking.client %}
+  <a href="{% url 'trainer:client_detail' booking.client.id %}" 
+     class="text-decoration-none fw-bold text-primary hover-underline">
+    {{ booking.client.get_full_name|default:booking.client.username }}
+  </a>
+  {% if booking.client.email %}
+    <br><small class="text-muted">{{ booking.client.email }}</small>
+  {% endif %}
+{% else %}
+  <strong>{{ booking.client_name|default:"(No name)" }}</strong>
+  {% if booking.client_contact %}
+    <br><small class="text-muted">{{ booking.client_contact }}</small>
+  {% endif %}
+{% endif %}
           </td>
 
           <!-- CONTACT COLUMN – 100% SAFE, NO CRASHES -->
