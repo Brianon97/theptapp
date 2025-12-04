@@ -131,7 +131,7 @@ def signup(request):
                 welcome_msg = "Welcome, Trainer! You can now manage bookings."
             else:
                 user.is_staff = False
-                welcome_msg = "Welcome! You can now book sessions."
+                welcome_msg = "Welcome! You can now book sessions with trainers."
 
             user.save()
             login(request, user)
@@ -140,7 +140,7 @@ def signup(request):
     else:
         form = SignUpForm()
 
-    return render(request, 'registration/signup.html', {'form': form})
+    return render(request, 'signup.html', {'form': form})  
 
 @login_required
 def check_notifications(request):
