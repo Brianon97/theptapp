@@ -45,11 +45,7 @@ def booking_create(request):
 @login_required
 def booking_edit(request, pk):
     # First get the booking (trainer OR client owns it)
-    booking = get_object_or_404(
-        Booking,
-        pk=pk,
-        Q(trainer=request.user) | Q(client=request.user)
-    )
+    booking = get_object_or_404(Booking, Q(pk=pk) & (Q(trainer=request.user) | Q(client=request.user)))
 
     # Block clients from editing (for now)
     if not request.user.is_staff:
@@ -76,8 +72,7 @@ def booking_edit(request, pk):
 def booking_delete(request, pk):
     booking = get_object_or_404(
         Booking,
-        pk=pk,
-        Q(trainer=request.user) | Q(client=request.user)
+        Q(pk=pk) & (Q(trainer=request.user) | Q(client=request.user))
     )
 
     if request.method == 'POST':
