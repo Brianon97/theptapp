@@ -1,14 +1,22 @@
 # trainer/models.py
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 class Booking(models.Model):
     trainer = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='bookings',
-        null=True,      # ← ADD THIS
-        blank=True      # ← AND THIS
+        null=True,
+        blank=True
+    )
+    client = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name='bookings_as_client',
+        null=True,
+        blank=True
     )
     client_name = models.CharField(max_length=100)
     client_contact = models.CharField(max_length=100, blank=True)
@@ -23,4 +31,6 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.client_name} → {self.trainer.get_full_name() or self.trainer.username}"
+        trainer_name = self.trainer.get_full_name() or self.trainer.username if self.trainer else "Unassigned"
+        client_str = self.client.get_full_name() or self.client.username if self.client else self.client_name
+        return f"{client_str} → {trainer_name}"

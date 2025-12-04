@@ -9,6 +9,8 @@ from django.db.models import Q
 from .models import Booking
 from .forms import BookingForm
 from django.db.models import Q
+from django import forms
+
 
 
 @login_required
@@ -98,20 +100,46 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
-def client_signup(request):
-    # Client signup
+
+
+class SignUpForm(UserCreationForm):
+    ROLE_CHOICES = [
+        ('client', 'I am a Client (booking sessions)'),
+        ('trainer', 'I am a Trainer (receiving bookings)'),
+    ]
+    role = forms.ChoiceField(choices=ROLE_CHOICES, widget=forms.RadioSelect, required=True)
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=150, required=False)
+    email = forms.EmailField(required=False)
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'role']
+
+def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            user.is_staff = False  # Explicit, though default
+            user = form.save(commit=False)
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.email = form.cleaned_data['email']
+
+            if form.cleaned_data['role'] == 'trainer':
+                user.is_staff = True
+                welcome_msg = "Welcome, Trainer! You can now manage bookings."
+            else:
+                user.is_staff = False
+                welcome_msg = "Welcome! You can now book sessions."
+
             user.save()
             login(request, user)
-            messages.success(request, 'Welcome, Client! Your account is ready.')
+            messages.success(request, welcome_msg)
             return redirect('trainer:booking_list')
     else:
-        form = UserCreationForm()
-    return render(request, 'client_signup.html', {'form': form})
+        form = SignUpForm()
+
+    return render(request, 'registration/signup.html', {'form': form})
 
 @login_required
 def check_notifications(request):
