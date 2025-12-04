@@ -44,6 +44,7 @@
       <tbody>
         {% for booking in bookings %}
         <tr>
+          <!-- CLIENT NAME + EMAIL BELOW (clickable if real user) -->
           <td>
             {% if booking.client %}
               <a href="{% url 'trainer:client_profile' booking.client.id %}" 
@@ -54,24 +55,40 @@
                 <br><small class="text-muted">{{ booking.client.email }}</small>
               {% endif %}
             {% else %}
-              <strong>{{ booking.client_name }}</strong>
+              <strong>{{ booking.client_name|default:"(No name)" }}</strong>
               {% if booking.client_contact %}
                 <br><small class="text-muted">{{ booking.client_contact }}</small>
               {% endif %}
             {% endif %}
           </td>
+
+          <!-- CONTACT COLUMN – 100% SAFE, NO CRASHES -->
           <td>
             <small class="text-muted">
-              {{ booking.client_contact|default:booking.client.email|default:"— No contact" }}
+              {% if booking.client and booking.client.email %}
+                {{ booking.client.email }}
+              {% elif booking.client_contact %}
+                {{ booking.client_contact }}
+              {% else %}
+                — No contact
+              {% endif %}
             </small>
           </td>
+
           <td><strong>{{ booking.date|date:"D, M j, Y" }}</strong></td>
           <td>{{ booking.time|time:"g:i A" }}</td>
+          
           <td>
-            <span class="badge bg-{% if booking.status == 'confirmed' %}success{% elif booking.status == 'pending' %}warning{% elif booking.status == 'cancelled' %}secondary{% else %}info{% endif %}">
+            <span class="badge bg-{%
+              if booking.status == 'confirmed' %}success{%
+              elif booking.status == 'pending' %}warning{%
+              elif booking.status == 'cancelled' %}secondary{%
+              else %}info{%
+              endif %}">
               {{ booking.get_status_display }}
             </span>
           </td>
+
           <td>
             {% if booking.notes %}
               {{ booking.notes|linebreaksbr }}
@@ -79,6 +96,7 @@
               <span class="text-muted">—</span>
             {% endif %}
           </td>
+
           <td class="text-center">
             {% if user.is_staff %}
               <a href="{% url 'trainer:booking_edit' booking.pk %}" class="btn btn-primary btn-sm">
@@ -98,6 +116,7 @@
       </tbody>
     </table>
   </div>
+
   {% else %}
   <div class="alert alert-info text-center p-5">
     <h4>No bookings yet</h4>
