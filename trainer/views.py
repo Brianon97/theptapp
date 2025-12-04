@@ -8,7 +8,6 @@ from django.http import JsonResponse
 from django.db.models import Q
 from .models import Booking
 from .forms import BookingForm
-from django.db.models import Q
 from django import forms
 from django.contrib.auth.models import User
 
@@ -22,7 +21,7 @@ def booking_list(request):
         bookings = request.user.bookings_as_client.all().order_by('-date', 'time')
     return render(request, 'trainer/booking_list.html', {'bookings': bookings})
 
-# In views.py → booking_create function
+
 @login_required
 def booking_create(request):
     if request.method == 'POST':
@@ -155,13 +154,18 @@ def check_notifications(request):
         data = {'count': 0}
     return JsonResponse(data)
 
-# trainer/views.py
+
 @login_required
-def client_profile(request, user_id):
-    client = get_object_or_404(User, id=user_id, is_staff=False)
+def client_detail(request, user_id):
+    # Only allow trainers to view client details
+    if not request.user.is_staff:
+        messages.error(request, "You don't have permission to view client profiles.")
+        return redirect('trainer:booking_list')
+
+    client = get_object_or_404(User, id=user_id, is_staff=False)  # Clients only
     bookings = client.bookings_as_client.all().order_by('-date', 'time')
-    
-    return render(request, 'trainer/client_profile.html', {
+
+    return render(request, 'trainer/client_detail.html', {
         'client': client,
-        'bookings': bookings
+        'bookings': bookings,
     })
