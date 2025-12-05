@@ -8,71 +8,93 @@
 
   <form method="post" novalidate onsubmit="disableSubmit(this)">
     {% csrf_token %}
+
+    <!-- Error display -->
     {% if form.non_field_errors or form.errors %}
-<div class="alert alert-danger">
-  <strong>Please fix the following errors:</strong>
-  <ul>
-    {% for field in form %}
-      {% if field.errors %}
-        {% for error in field.errors %}
-          <li><strong>{{ field.label }}:</strong> {{ error }}</li>
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-    {% if form.non_field_errors %}
-      {% for error in form.non_field_errors %}
-        <li>{{ error }}</li>
-      {% endfor %}
+      <div class="alert alert-danger">
+        <strong>Please fix the following errors:</strong>
+        <ul class="mb-0">
+          {% for field in form %}
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
     {% endif %}
-  </ul>
+
+    <div class="row g-3">
+
+      <!-- Client Dropdown — ONLY for trainers -->
+      {% if user.is_staff and 'client' in form.fields %}
+<div class="col-md-8">
+    {{ form.client.label_tag }}
+    {{ form.client }}
+    {% if form.client.errors %}
+        <div class="text-danger small mt-1">{{ form.client.errors|join:", " }}</div>
+    {% endif %}
 </div>
 {% endif %}
 
-    <div class="row g-3">
+      <!-- Date & Time — always shown -->
       <div class="col-md-6">
-        {{ form.client_name.label_tag }} {{ form.client_name }}
-        {% if form.client_name.errors %}
-          <div class="text-danger small">{{ form.client_name.errors }}</div>
+    {{ form.time.label_tag }} <span class="text-danger">*</span>
+    {{ form.time }}
+    {% if form.time.errors %}
+        <div class="text-danger small mt-1">{{ form.time.errors|join:", " }}</div>
+    {% endif %}
+</div>
+
+      <div class="col-md-6">
+        {{ form.time.label_tag }} <span class="text-danger">*</span>
+        {{ form.time }}
+        {% if form.time.errors %}
+          <div class="text-danger small mt-1">{{ form.time.errors|join:", " }}</div>
         {% endif %}
       </div>
 
-      <div class="col-md-6">
-        {{ form.client_contact.label_tag }} {{ form.client_contact }}
-        <small class="text-muted">Optional – for reminders</small>
-      </div>
-
-      <div class="col-md-6">
-        {{ form.date.label_tag }} <span class="text-danger">*</span> {{ form.date }}
-      </div>
-      <div class="col-md-6">
-        {{ form.time.label_tag }} <span class="text-danger">*</span> {{ form.time }}
-      </div>
-
-      <div class="col-12">
-        {{ form.notes.label_tag }} {{ form.notes }}
-      </div>
-
+      <!-- Status — only for trainers -->
       {% if user.is_staff %}
-      <div class="col-md-4">
-        {{ form.status.label_tag }} {{ form.status }}
-      </div>
+        <div class="col-md-6">
+          {{ form.status.label_tag }}
+          {{ form.status }}
+        </div>
       {% endif %}
+
+      <!-- Notes — always shown -->
+      <div class="col-12">
+        {{ form.notes.label_tag }}
+        {{ form.notes }}
+        {% if form.notes.errors %}
+          <div class="text-danger small mt-1">{{ form.notes.errors|join:", " }}</div>
+        {% endif %}
+      </div>
     </div>
 
-    <div class="mt-4">
-      <button id="save-booking" type="submit" class="btn btn-success btn-lg px-5">Save Booking</button>
-      <a href="{% url 'trainer:booking_list' %}" class="btn btn-secondary btn-lg ms-2">Cancel</a>
+    <!-- Buttons -->
+    <div class="mt-5">
+      <button id="save-booking" type="submit" class="btn btn-success btn-lg px-5">
+        Save Booking
+      </button>
+      <a href="{% url 'trainer:booking_list' %}" class="btn btn-outline-secondary btn-lg ms-3">
+        Cancel
+      </a>
     </div>
   </form>
 </div>
+
 <script>
-  function disableSubmit(form){
+  function disableSubmit(form) {
     const btn = form.querySelector('button[type="submit"]');
-    if(btn){
+    if (btn) {
       btn.disabled = true;
-      btn.innerText = 'Saving...';
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Saving...';
     }
-    return true;
   }
 </script>
 {% endblock %}
