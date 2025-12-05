@@ -67,7 +67,7 @@
             </li>
           {% endif %}
 
-          <!-- AUTHENTICATED USER MENU -->
+                   <!-- AUTHENTICATED USER MENU -->
           {% if user.is_authenticated %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle text-light d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
@@ -81,10 +81,29 @@
                 {% endif %}
               </a>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="{% url 'trainer:booking_list' %}">My Bookings</a></li>
-                <li><a class="dropdown-item text-success fw-bold" href="{% url 'trainer:booking_create' %}">+ New Booking</a></li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'trainer:booking_list' %}">
+                    {% if user.is_staff %}All Bookings{% else %}My Bookings{% endif %}
+                  </a>
+                </li>
+
+                <!-- ONLY TRAINERS SEE "New Booking" — fixed syntax! -->
+                {% if user.is_staff %}
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item text-success fw-bold" href="{% url 'trainer:booking_create' %}">
+                      <i class="fas fa-plus me-2"></i>New Booking
+                    </a>
+                  </li>
+                {% endif %}
+
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
+                <li>
+                  <form method="post" action="{% url 'logout' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item text-danger">Logout</button>
+                  </form>
+                </li>
               </ul>
             </li>
           {% endif %}
