@@ -43,12 +43,12 @@
 
       <!-- Date & Time — always shown -->
       <div class="col-md-6">
-    {{ form.time.label_tag }} <span class="text-danger">*</span>
-    {{ form.time }}
-    {% if form.time.errors %}
-        <div class="text-danger small mt-1">{{ form.time.errors|join:", " }}</div>
-    {% endif %}
-</div>
+        {{ form.date.label_tag }} <span class="text-danger">*</span>
+        {{ form.date }}
+        {% if form.date.errors %}
+          <div class="text-danger small mt-1">{{ form.date.errors|join:", " }}</div>
+        {% endif %}
+      </div>
 
       <div class="col-md-6">
         {{ form.time.label_tag }} <span class="text-danger">*</span>
