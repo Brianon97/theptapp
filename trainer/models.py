@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Q
 
+
 class Booking(models.Model):
     trainer = models.ForeignKey(
         User,
