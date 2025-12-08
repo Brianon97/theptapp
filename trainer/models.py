@@ -35,3 +35,31 @@ class Booking(models.Model):
         trainer_name = self.trainer.get_full_name() or self.trainer.username if self.trainer else "Unassigned"
         client_str = self.client.get_full_name() or self.client.username if self.client else self.client_name
         return f"{client_str} → {trainer_name}"
+    
+class TrainerProfile(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='trainer_profile'
+    )
+    bio = models.TextField(max_length=800, blank=True)
+    photo = models.ImageField(upload_to='trainers/', blank=True, null=True)
+    specialties = models.CharField(
+        max_length=300,
+        blank=True,
+        help_text="e.g. Strength Training, Weight Loss, Yoga, Mobility"
+    )
+    years_experience = models.PositiveIntegerField(default=1)
+    qualifications = models.TextField(
+        blank=True,
+        help_text="Certifications, degrees, awards..."
+    )
+    instagram = models.URLField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)  # Hide inactive trainers
+
+    class Meta:
+        verbose_name = "Trainer Profile"
+        verbose_name_plural = "Trainer Profiles"
+
+    def __str__(self):
+        return f"{self.user.get_full_name() or self.user.username} – Trainer"
