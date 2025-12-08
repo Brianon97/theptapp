@@ -154,7 +154,7 @@ def check_notifications(request):
 
 @login_required
 def client_detail(request, user_id):
-    # Only allow trainers to view client details
+    
     if not request.user.is_staff:
         messages.error(request, "You don't have permission to view client profiles.")
         return redirect('trainer:booking_list')
@@ -169,15 +169,13 @@ def client_detail(request, user_id):
 
 @receiver(post_save, sender=User)
 def create_trainer_profile(sender, instance, created, **kwargs):
-    if created and instance.is_staff:  # Only trainers
+    if created and instance.is_staff:  
         TrainerProfile.objects.create(user=instance)
 
+# trainer/views.py
 def trainer_list(request):
     trainers = User.objects.filter(
         is_staff=True,
         trainer_profile__is_active=True
     ).select_related('trainer_profile').order_by('first_name')
-
-    return render(request, 'trainer/trainer_list.html', {
-        'trainers': trainers
-    })
+    return render(request, 'trainer/trainer_list.html', {'trainers': trainers})
