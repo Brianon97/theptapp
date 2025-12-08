@@ -29,7 +29,7 @@ Personal trainer booking system with role-based access (Client / Trainer).
 - As a user, I should have a separate page for the trainer and client.
 - As a client, I should be able to cancel and reschedule bookings that notify the trainer.
 - As a user I should be able to leave testimonial reviews.
-- As a user I should be able to make payments through strip integration.
+
 
 
 ## Could Have:
@@ -39,6 +39,7 @@ Personal trainer booking system with role-based access (Client / Trainer).
 - As a user, I want to view workout plans and be able to save/bookmark my favorite.
 - As a user, I want to change the background theme so that I can personalise the app.
 - As a user, I want to share completed workouts on social media.
+- As a user I should be able to make payments through strip integration.
 
 ## Features
 - Client: Book, view, edit, cancel sessions
