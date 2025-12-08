@@ -179,3 +179,5 @@ def trainer_list(request):
         trainer_profile__is_active=True
     ).select_related('trainer_profile').order_by('first_name')
     return render(request, 'trainer/trainer_list.html', {'trainers': trainers})
+
+
