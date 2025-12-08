@@ -5,7 +5,7 @@
 **Time**: November 15, 2025 04:17 PM GMT (IE)
 
 ## Purpose
-Personal trainer booking system with role-based access (Client / Trainer).
+This appp is designed personal trainers to a manage bookings between them and their clients who create and account.
 
 ## Table of Content
 - **User Stories**
