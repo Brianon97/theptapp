@@ -5,7 +5,7 @@
 **Time**: November 15, 2025 04:17 PM GMT (IE)
 
 ## Purpose
-Personal trainer booking system with role-based access (Client / Trainer).
+This appp is designed personal trainers to a manage bookings between them and their clients who create and account.
 
 ## Table of Content
 - **User Stories**
@@ -29,8 +29,6 @@ Personal trainer booking system with role-based access (Client / Trainer).
 - As a user, I should have a separate page for the trainer and client.
 - As a client, I should be able to cancel and reschedule bookings that notify the trainer.
 - As a user I should be able to leave testimonial reviews.
-- As a user I should be able to make payments through strip integration.
-
 
 ## Could Have:
 - As a user, have motivational tips to leave in the client page.
@@ -39,6 +37,7 @@ Personal trainer booking system with role-based access (Client / Trainer).
 - As a user, I want to view workout plans and be able to save/bookmark my favorite.
 - As a user, I want to change the background theme so that I can personalise the app.
 - As a user, I want to share completed workouts on social media.
+- As a user I should be able to make payments through strip integration.
 
 ## Features
 - Client: Book, view, edit, cancel sessions
@@ -46,6 +45,10 @@ Personal trainer booking system with role-based access (Client / Trainer).
 - Responsive UI (Bootstrap 5)
 - Form validation
 - Secure login
+
+## Entity Relationship Diagram
+![mermaid-diagram (1)](https://github.com/user-attachments/assets/155120e0-9b63-412b-aa5b-449150ad6053)
+
 
 ## Tech Stack
 - **Python 3.12**
