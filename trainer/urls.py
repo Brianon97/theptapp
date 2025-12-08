@@ -15,4 +15,6 @@ urlpatterns = [
     
     path('signup/', views.signup, name='signup'),
     path('notifications/check/', views.check_notifications, name='check_notifications'),
+    # trainer/urls.py  (add this line)
+    path('trainers/', views.trainer_list, name='trainer_list'),
 ]

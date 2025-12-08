@@ -17,4 +17,5 @@ urlpatterns = [
 
     # ALL trainer URLs (new/, signup/, etc.)
     path('', include('trainer.urls', namespace='trainer')),
+    
 ]
