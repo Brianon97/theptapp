@@ -56,110 +56,78 @@
     </style>
   </head>
   <body>
-    <!-- NAVBAR — CLEAN & FINAL (NO DUPLICATES!) -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand fw-bold fs-4" href="{% url 'home' %}">
-          <i class="fas fa-dumbbell me-2"></i>THE PT APP
-        </a>
+   <!-- NAVBAR – FINAL VERSION FOR YOUR BOOKING APP -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-4" href="{% url 'home' %}">
+      <i class="fas fa-dumbbell me-2"></i>THE PT APP
+    </a>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto align-items-center">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">Home</a>
-            </li>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
 
-            <!-- ONLY ONE SET OF SIGN UP / LOGIN BUTTONS -->
-            {% if not user.is_authenticated %}
-            <li class="nav-item ms-3">
-              <a
-                href="{% url 'trainer:signup' %}"
-                class="btn btn-signup text-white px-4"
-                >Sign Up</a
-              >
-            </li>
-            <li class="nav-item ms-2">
-              <a href="{% url 'login' %}" class="btn btn-outline-light"
-                >Login</a
-              >
-            </li>
-            {% endif %}
+        <!-- GUEST USER (not logged in) → Sign Up + Login -->
+        {% if not user.is_authenticated %}
+          <li class="nav-item me-2">
+            <a href="{% url 'trainer:signup' %}" class="btn btn-signup text-white px-50 px-4">Sign Up</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'login' %}" class="btn btn-outline-light">Login</a>
+          </li>
+        {% endif %}
 
-            <!-- AUTHENTICATED USER MENU -->
-            {% if user.is_authenticated %}
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle text-light d-flex align-items-center"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-              >
-                Hi, {{ user.get_short_name|default:user.username }} {% if
-                user.is_staff %}
+        <!-- LOGGED IN USER → Dropdown with Bookings + Logout -->
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-light d-flex align-items-center fw-semibold" 
+               href="#" role="button" data-bs-toggle="dropdown">
+              Hi, {{ user.get_short_name|default:user.username }}
+
+              {% if user.is_staff %}
                 <span class="position-relative ms-2">
-                  <span
-                    id="notification-badge"
-                    class="badge bg-danger rounded-pill"
-                    style="font-size: 0.7rem; display: none"
-                  >
+                  <span id="notification-badge" class="badge bg-danger rounded-pill" 
+                        style="font-size: 0.65rem; display: none;">
                     <span id="notification-count">0</span>
                   </span>
                 </span>
-                {% endif %}
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                  <a
-                    class="dropdown-item"
-                    href="{% url 'trainer:booking_list' %}"
-                  >
-                    {% if user.is_staff %}All Bookings{% else %}My Bookings{%
-                    endif %}
-                  </a>
-                </li>
+              {% endif %}
+            </a>
 
-                <!-- ONLY TRAINERS SEE "New Booking" — fixed syntax! -->
-                {% if user.is_staff %}
-                <li><hr class="dropdown-divider" /></li>
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+              <li>
+                <a class="dropdown-item" href="{% url 'trainer:booking_list' %}">
+                  {% if user.is_staff %}All Bookings{% else %}My Bookings{% endif %}
+                </a>
+              </li>
+
+              {% if user.is_staff %}
+                <li><hr class="dropdown-divider"></li>
                 <li>
-                  <a
-                    class="dropdown-item text-success fw-bold"
-                    href="{% url 'trainer:booking_create' %}"
-                  >
+                  <a class="dropdown-item text-success fw-bold" href="{% url 'trainer:booking_create' %}">
                     <i class="fas fa-plus me-2"></i>New Booking
                   </a>
                 </li>
-                {% endif %}
+              {% endif %}
 
-                <li><hr class="dropdown-divider" /></li>
-                <li>
-                  <form
-                    method="post"
-                    action="{% url 'logout' %}"
-                    class="d-inline"
-                  >
-                    {% csrf_token %}
-                    <button type="submit" class="dropdown-item text-danger">
-                      Logout
-                    </button>
-                  </form>
-                </li>
-              </ul>
-            </li>
-            {% endif %}
-          </ul>
-        </div>
-      </div>
-    </nav>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form method="post" action="{% url 'logout' %}" class="d-inline">
+                  {% csrf_token %}
+                  <button type="submit" class="dropdown-item text-danger">Logout</button>
+                </form>
+              </li>
+            </ul>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>
 
     <main class="container my-4">{% block content %}{% endblock %}</main>
 
