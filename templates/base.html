@@ -62,15 +62,7 @@
   <div id="liveToastContainer">
     {% if messages %}
       {% for message in messages %}
-        {% if message.tags == 'success' %}
-        {% if 
-    'welcome' in message|lower or
-    'logged' in message|lower or
-    'logout' in message|lower or
-    'see you' in message|lower or
-    'signup' in message|lower
-%}
-
+        {% if message.tags == 'success' and 'welcome' in message|lower or 'logged' in message|lower or 'logout' in message|lower or 'see you' in message|lower or 'signup' in message|lower %}
             <!-- Only show toast for auth-related success messages -->
             <div class="toast align-items-center text-white bg-success border-0 shadow-lg mb-2" role="alert" data-bs-autohide="true">
               <div class="d-flex">
@@ -80,7 +72,6 @@
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
               </div>
             </div>
-          {% endif %}
         {% endif %}
       {% endfor %}
     {% endif %}
