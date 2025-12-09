@@ -57,115 +57,191 @@
   </head>
   <body>
     <!-- Toast Container for Messages -->
-<!-- SMART TOASTS: Only for Login, Logout, Signup — NOT for booking actions -->
-<div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
-  <div id="liveToastContainer">
-    {% if messages %}
-      {% for message in messages %}
-        {% if message.tags == 'success' and 'welcome' in message|lower or 'logged' in message|lower or 'logout' in message|lower or 'see you' in message|lower or 'signup' in message|lower %}
-            <!-- Only show toast for auth-related success messages -->
-            <div class="toast align-items-center text-white bg-success border-0 shadow-lg mb-2" role="alert" data-bs-autohide="true">
-              <div class="d-flex">
-                <div class="toast-body fw-semibold">
-                  {{ message }}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-              </div>
-            </div>
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  </div>
-</div>
+    <!-- SMART TOASTS: Only for Login, Logout, Signup — NOT for booking actions -->
+    <div
+      aria-live="polite"
+      aria-atomic="true"
+      class="position-fixed bottom-0 end-0 p-3"
+      style="z-index: 1080"
+    >
+      <div id="liveToastContainer">
+        {% if message.tags == 'success' and ( 'welcome' in message|lower or
+        'logged' in message|lower or 'logout' in message|lower or 'see you' in
+        message|lower or 'signup' in message|lower ) %}
 
-<script>
-// Auto-show auth toasts
-document.addEventListener('DOMContentLoaded', function () {
-  const authToasts = document.querySelectorAll('#liveToastContainer .toast');
-  authToasts.forEach(el => {
-    new bootstrap.Toast(el, {
-      autohide: true,
-      delay: 4000   // 4 seconds
-    }).show();
-  });
-});
+        <!-- Only show toast for auth-related success messages -->
+        <div
+          class="toast align-items-center text-white bg-success border-0 shadow-lg mb-2"
+          role="alert"
+          data-bs-autohide="true"
+        >
+          <div class="d-flex">
+            <div class="toast-body fw-semibold">{{ message }}</div>
+            <button
+              type="button"
+              class="btn-close btn-close-white me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            ></button>
+          </div>
+        </div>
+        {% endif %} {% endfor %} {% endif %}
+      </div>
+    </div>
 
+    <script>
+      // Auto-show auth toasts
+      document.addEventListener("DOMContentLoaded", function () {
+        const authToasts = document.querySelectorAll(
+          "#liveToastContainer .toast"
+        );
+        authToasts.forEach((el) => {
+          new bootstrap.Toast(el, {
+            autohide: true,
+            delay: 4000, // 4 seconds
+          }).show();
+        });
+      });
+    </script>
 
+    <!-- Toast Container for Booking Success Messages -->
 
+    <!-- BOOKING SUCCESS TOASTS -->
+    <div
+      aria-live="polite"
+      aria-atomic="true"
+      class="position-fixed top-0 end-0 p-3"
+      style="z-index: 1080; margin-top: 80px"
+    >
+      {% for message in messages %} {% if message.tags == 'success' %} {% if
+      'booking' in message|lower %}
+      <div
+        class="toast text-white bg-success shadow-lg mb-2"
+        role="alert"
+        data-bs-autohide="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body fw-semibold">{{ message }}</div>
+          <button
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+          ></button>
+        </div>
+      </div>
+      {% endif %} {% endif %} {% endfor %}
+    </div>
 
-</script>
-   <!-- NAVBAR – FINAL VERSION FOR YOUR BOOKING APP -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-  <div class="container">
-    <a class="navbar-brand fw-bold fs-4" href="{% url 'home' %}">
-      <i class="fas fa-dumbbell me-2"></i>THE PT APP
-    </a>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const bookingToasts = document.querySelectorAll(".toast.bg-success");
+        bookingToasts.forEach((el) => {
+          new bootstrap.Toast(el, {
+            autohide: true,
+            delay: 5000, // 5 seconds max
+          }).show();
+        });
+      });
+    </script>
+    <!-- NAVBAR – FINAL VERSION FOR YOUR BOOKING APP -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand fw-bold fs-4" href="{% url 'home' %}">
+          <i class="fas fa-dumbbell me-2"></i>THE PT APP
+        </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto align-items-center">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-center">
+            <!-- GUEST USER (not logged in) → Sign Up + Login -->
+            {% if not user.is_authenticated %}
+            <li class="nav-item me-2">
+              <a
+                href="{% url 'trainer:signup' %}"
+                class="btn btn-signup text-white px-50 px-4"
+                >Sign Up</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'login' %}" class="btn btn-outline-light"
+                >Login</a
+              >
+            </li>
+            {% endif %}
 
-        <!-- GUEST USER (not logged in) → Sign Up + Login -->
-        {% if not user.is_authenticated %}
-          <li class="nav-item me-2">
-            <a href="{% url 'trainer:signup' %}" class="btn btn-signup text-white px-50 px-4">Sign Up</a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'login' %}" class="btn btn-outline-light">Login</a>
-          </li>
-        {% endif %}
-
-        <!-- LOGGED IN USER → Dropdown with Bookings + Logout -->
-        {% if user.is_authenticated %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-light d-flex align-items-center fw-semibold" 
-               href="#" role="button" data-bs-toggle="dropdown">
-              Hi, {{ user.get_short_name|default:user.username }}
-
-              {% if user.is_staff %}
+            <!-- LOGGED IN USER → Dropdown with Bookings + Logout -->
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle text-light d-flex align-items-center fw-semibold"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                Hi, {{ user.get_short_name|default:user.username }} {% if
+                user.is_staff %}
                 <span class="position-relative ms-2">
-                  <span id="notification-badge" class="badge bg-danger rounded-pill" 
-                        style="font-size: 0.65rem; display: none;">
+                  <span
+                    id="notification-badge"
+                    class="badge bg-danger rounded-pill"
+                    style="font-size: 0.65rem; display: none"
+                  >
                     <span id="notification-count">0</span>
                   </span>
                 </span>
-              {% endif %}
-            </a>
+                {% endif %}
+              </a>
 
-            <ul class="dropdown-menu dropdown-menu-end shadow">
-              <li>
-                <a class="dropdown-item" href="{% url 'trainer:booking_list' %}">
-                  {% if user.is_staff %}All Bookings{% else %}My Bookings{% endif %}
-                </a>
-              </li>
-
-              {% if user.is_staff %}
-                <li><hr class="dropdown-divider"></li>
+              <ul class="dropdown-menu dropdown-menu-end shadow">
                 <li>
-                  <a class="dropdown-item text-success fw-bold" href="{% url 'trainer:booking_create' %}">
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'trainer:booking_list' %}"
+                  >
+                    {% if user.is_staff %}All Bookings{% else %}My Bookings{%
+                    endif %}
+                  </a>
+                </li>
+
+                {% if user.is_staff %}
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a
+                    class="dropdown-item text-success fw-bold"
+                    href="{% url 'trainer:booking_create' %}"
+                  >
                     <i class="fas fa-plus me-2"></i>New Booking
                   </a>
                 </li>
-              {% endif %}
+                {% endif %}
 
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <form method="post" action="{% url 'logout' %}" class="d-inline">
-                  {% csrf_token %}
-                  <button type="submit" class="dropdown-item text-danger">Logout</button>
-                </form>
-              </li>
-            </ul>
-          </li>
-        {% endif %}
-
-      </ul>
-    </div>
-  </div>
-</nav>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <form
+                    method="post"
+                    action="{% url 'logout' %}"
+                    class="d-inline"
+                  >
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item text-danger">
+                      Logout
+                    </button>
+                  </form>
+                </li>
+              </ul>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
 
     <main class="container my-4">{% block content %}{% endblock %}</main>
 
