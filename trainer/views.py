@@ -12,7 +12,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import TrainerProfile
+from django.contrib.auth.models import User
 
 
 @login_required
@@ -167,17 +167,6 @@ def client_detail(request, user_id):
         'bookings': bookings,
     })
 
-@receiver(post_save, sender=User)
-def create_trainer_profile(sender, instance, created, **kwargs):
-    if created and instance.is_staff:  
-        TrainerProfile.objects.create(user=instance)
 
-# trainer/views.py
-def trainer_list(request):
-    trainers = User.objects.filter(
-        is_staff=True,
-        trainer_profile__is_active=True
-    ).select_related('trainer_profile').order_by('first_name')
-    return render(request, 'trainer/trainer_list.html', {'trainers': trainers})
 
 
