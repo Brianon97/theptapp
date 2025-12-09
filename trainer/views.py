@@ -164,6 +164,24 @@ def client_detail(request, user_id):
         'bookings': bookings,
     })
 
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+from django.urls import reverse_lazy
+
+class CustomLoginView(SuccessMessageMixin, LoginView):
+    template_name = 'login.html'  # or whatever you use
+    success_message = "Welcome back, %(user.username)s! You're now logged in."
+
+    def get_success_url(self):
+        return reverse_lazy('trainer:booking_list')
+
+
+class CustomLogoutView(LogoutView):
+    def dispatch(self, request, *args, **kwargs):
+        messages.success(request, f"See you soon, {request.user.get_short_name() or request.user.username}! You've been logged out.")
+        return super().dispatch(request, *args, **kwargs)
+
 
 
 
