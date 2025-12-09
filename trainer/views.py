@@ -10,9 +10,6 @@ from .models import Booking
 from .forms import BookingForm
 from django import forms
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.contrib.auth.models import User
 
 
 @login_required
