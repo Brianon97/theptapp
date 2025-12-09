@@ -107,11 +107,12 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.first_name = form.cleaned_data['first_name']
-            user.last_name = form.cleaned_data['last_name']
-            user.email = form.cleaned_data['email']
+            user.first_name = form.cleaned_data.get('first_name', '')
+            user.last_name = form.cleaned_data.get('last_name', '')
+            user.email = form.cleaned_data.get('email', '')
 
-            if form.cleaned_data['role'] == 'trainer':
+            role = form.cleaned_data['role']
+            if role == 'trainer':
                 user.is_staff = True
                 welcome_msg = "Welcome, Trainer! You can now manage bookings."
             else:
@@ -120,12 +121,15 @@ def signup(request):
 
             user.save()
             login(request, user)
+
+            # This message will trigger a beautiful 3-second toast
             messages.success(request, welcome_msg)
+
             return redirect('trainer:booking_list')
     else:
         form = SignUpForm()
 
-    return render(request, 'signup.html', {'form': form})  
+    return render(request, 'signup.html', {'form': form})
 
 @login_required
 def check_notifications(request):
@@ -169,9 +173,10 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
 
+        # In your CustomLoginView class
 class CustomLoginView(SuccessMessageMixin, LoginView):
-    template_name = 'login.html'  # or whatever you use
-    success_message = "Welcome back, %(user.username)s! You're now logged in."
+    template_name = 'login.html'
+    success_message = "Welcome back! You are now logged in."
 
     def get_success_url(self):
         return reverse_lazy('trainer:booking_list')

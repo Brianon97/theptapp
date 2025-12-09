@@ -1,6 +1,7 @@
 # trainer/urls.py
 from django.urls import path
 from . import views
+from trainer.views import CustomLoginView, CustomLogoutView
 
 app_name = 'trainer'
 
@@ -12,4 +13,12 @@ urlpatterns = [
     path('client/<int:user_id>/', views.client_detail, name='client_detail'),
     path('signup/', views.signup, name='signup'),
     path('notifications/check/', views.check_notifications, name='check_notifications'),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('logout/', views.CustomLogoutView.as_view(), name='logout'),
 ]
+
+
+
+
+
+
