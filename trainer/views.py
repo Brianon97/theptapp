@@ -183,8 +183,11 @@ class CustomLoginView(SuccessMessageMixin, LoginView):
 
 
 class CustomLogoutView(LogoutView):
+    next_page = 'home'
+    
     def dispatch(self, request, *args, **kwargs):
-        messages.success(request, f"See you soon, {request.user.get_short_name() or request.user.username}! You've been logged out.")
+        if request.user.is_authenticated:
+            messages.success(request, f"See you soon, {request.user.get_short_name() or request.user.username}! You've been logged out.")
         return super().dispatch(request, *args, **kwargs)
 
 
