@@ -55,22 +55,31 @@
       }
     </style>
   </head>
+
   <body>
-    <!-- Toast Container for Messages -->
-<!-- SMART TOASTS: Only for Login, Logout, Signup — NOT for booking actions -->
-<div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+
+<!-- ===================================================== -->
+<!-- LOGIN / LOGOUT / SIGNUP TOASTS (bottom-right) -->
+<!-- ===================================================== -->
+<div aria-live="polite" aria-atomic="true"
+     class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
   <div id="liveToastContainer">
     {% if messages %}
       {% for message in messages %}
         {% if message.tags == 'success' %}
-          {% if 'welcome' in message|lower or 'logged' in message|lower or 'see you' in message|lower or 'signup' in message|lower %}
-            <!-- Only show toast for auth-related success messages -->
-            <div class="toast align-items-center text-white bg-success border-0 shadow-lg mb-2" role="alert" data-bs-autohide="true">
+          {% if 
+            'welcome' in message|lower or
+            'logged' in message|lower or
+            'logout' in message|lower or
+            'see you' in message|lower or
+            'signup' in message|lower
+          %}
+            <div class="toast align-items-center text-white bg-success border-0 shadow-lg mb-2"
+                 role="alert" data-bs-autohide="true">
               <div class="d-flex">
-                <div class="toast-body fw-semibold">
-                  {{ message }}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                <div class="toast-body fw-semibold">{{ message }}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast"></button>
               </div>
             </div>
           {% endif %}
@@ -81,52 +90,44 @@
 </div>
 
 <script>
-// Auto-show auth toasts
-document.addEventListener('DOMContentLoaded', function () {
-  const authToasts = document.querySelectorAll('#liveToastContainer .toast');
-  authToasts.forEach(toastEl => {
-    const toast = new bootstrap.Toast(toastEl, {
-      delay: 4000
-    });
-    toast.show();
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#liveToastContainer .toast').forEach(t => {
+    new bootstrap.Toast(t, { autohide: true, delay: 4000 }).show();
   });
 });
+</script>
 
-// SAVE BOOKING SUCCESS TOASTS 
-
-<div aria-live="polite" aria-atomic="true" 
-     class="position-fixed top-0 end-0 p-3" 
+<!-- ===================================================== -->
+<!-- BOOKING SUCCESS TOASTS (top-right) -->
+<!-- ===================================================== -->
+<div aria-live="polite" aria-atomic="true"
+     class="position-fixed top-0 end-0 p-3"
      style="z-index: 1080; margin-top: 80px;">
-  
   {% for message in messages %}
-    {% if message.tags == 'success' %}
-      {% if 'booking' in message|lower %}
-        <div class="toast text-white bg-success shadow-lg mb-2" 
-             role="alert" data-bs-autohide="true">
-          <div class="d-flex">
-            <div class="toast-body fw-semibold">
-              {{ message }}
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto"
-                    data-bs-dismiss="toast"></button>
-          </div>
+    {% if message.tags == 'success' and 'booking' in message|lower %}
+      <div class="toast text-white bg-success shadow-lg mb-2"
+           role="alert" data-bs-autohide="true">
+        <div class="d-flex">
+          <div class="toast-body fw-semibold">{{ message }}</div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                  data-bs-dismiss="toast"></button>
         </div>
-      {% endif %}
+      </div>
     {% endif %}
   {% endfor %}
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const bookingToasts = document.querySelectorAll('.toast.bg-success');
-  bookingToasts.forEach(t => new bootstrap.Toast(t, { delay: 3500 }).show());
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.toast.bg-success').forEach(t => {
+    new bootstrap.Toast(t, { autohide: true, delay: 5000 }).show();
+  });
 });
 </script>
 
-
-
-</script>
-   <!-- NAVBAR – FINAL VERSION FOR YOUR BOOKING APP -->
+<!-- ===================================================== -->
+<!-- NAVBAR -->
+<!-- ===================================================== -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container">
     <a class="navbar-brand fw-bold fs-4" href="{% url 'home' %}">
@@ -140,27 +141,25 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center">
 
-        <!-- GUEST USER (not logged in) → Sign Up + Login -->
         {% if not user.is_authenticated %}
           <li class="nav-item me-2">
-            <a href="{% url 'trainer:signup' %}" class="btn btn-signup text-white px-50 px-4">Sign Up</a>
+            <a href="{% url 'trainer:signup' %}" class="btn btn-signup text-white px-4">Sign Up</a>
           </li>
           <li class="nav-item">
             <a href="{% url 'login' %}" class="btn btn-outline-light">Login</a>
           </li>
         {% endif %}
 
-        <!-- LOGGED IN USER → Dropdown with Bookings + Logout -->
         {% if user.is_authenticated %}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-light d-flex align-items-center fw-semibold" 
+            <a class="nav-link dropdown-toggle text-light d-flex align-items-center fw-semibold"
                href="#" role="button" data-bs-toggle="dropdown">
               Hi, {{ user.get_short_name|default:user.username }}
 
               {% if user.is_staff %}
                 <span class="position-relative ms-2">
-                  <span id="notification-badge" class="badge bg-danger rounded-pill" 
-                        style="font-size: 0.65rem; display: none;">
+                  <span id="notification-badge" class="badge bg-danger rounded-pill"
+                        style="font-size: .65rem; display: none;">
                     <span id="notification-count">0</span>
                   </span>
                 </span>
@@ -177,7 +176,8 @@ document.addEventListener('DOMContentLoaded', function () {
               {% if user.is_staff %}
                 <li><hr class="dropdown-divider"></li>
                 <li>
-                  <a class="dropdown-item text-success fw-bold" href="{% url 'trainer:booking_create' %}">
+                  <a class="dropdown-item text-success fw-bold"
+                     href="{% url 'trainer:booking_create' %}">
                     <i class="fas fa-plus me-2"></i>New Booking
                   </a>
                 </li>
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
               <li><hr class="dropdown-divider"></li>
               <li>
-                <form method="post" action="{% url 'logout' %}" class="d-inline">
+                <form method="post" action="{% url 'logout' %}">
                   {% csrf_token %}
                   <button type="submit" class="dropdown-item text-danger">Logout</button>
                 </form>
@@ -199,44 +199,50 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
 </nav>
 
-    <main class="container my-4">{% block content %}{% endblock %}</main>
+<!-- ===================================================== -->
+<main class="container my-4">
+  {% block content %}{% endblock %}
+</main>
 
-    <!-- FOOTER -->
-    <footer class="bg-dark text-white py-5 mt-auto">
-      <div class="container text-center">
-        <p class="mb-3">Connect with me</p>
-        <div class="fs-3 mb-4">
-          <a href="#" class="mx-3"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="mx-3"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="mx-3"><i class="fab fa-twitter"></i></a>
-        </div>
-        <p class="text-muted">© 2025 The PT App. All rights reserved.</p>
-      </div>
-    </footer>
+<!-- ===================================================== -->
+<!-- FOOTER -->
+<!-- ===================================================== -->
+<footer class="bg-dark text-white py-5 mt-auto">
+  <div class="container text-center">
+    <p class="mb-3">Connect with me</p>
+    <div class="fs-3 mb-4">
+      <a href="#" class="mx-3"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="mx-3"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="mx-3"><i class="fab fa-twitter"></i></a>
+    </div>
+    <p class="text-muted">© 2025 The PT App. All rights reserved.</p>
+  </div>
+</footer>
 
-    <!-- Notification badge script (only for trainers) -->
-    {% if user.is_authenticated and user.is_staff %}
-    <script>
-      function updateBadge() {
-        fetch("{% url 'trainer:check_notifications' %}")
-          .then((r) => r.json())
-          .then((data) => {
-            const badge = document.getElementById("notification-badge");
-            const count = document.getElementById("notification-count");
-            if (data.count > 0) {
-              count.textContent = data.count;
-              badge.style.display = "inline-block";
-            } else {
-              badge.style.display = "none";
-            }
-          })
-          .catch(() => {});
+<!-- Trainer Notification Badge -->
+{% if user.is_authenticated and user.is_staff %}
+<script>
+function updateBadge() {
+  fetch("{% url 'trainer:check_notifications' %}")
+    .then(r => r.json())
+    .then(data => {
+      const badge = document.getElementById("notification-badge");
+      const count = document.getElementById("notification-count");
+
+      if (data.count > 0) {
+        count.textContent = data.count;
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
       }
-      updateBadge();
-      setInterval(updateBadge, 30000);
-    </script>
-    {% endif %}
+    });
+}
+updateBadge();
+setInterval(updateBadge, 30000);
+</script>
+{% endif %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
 </html>
