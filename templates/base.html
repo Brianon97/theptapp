@@ -65,6 +65,8 @@
       style="z-index: 1080"
     >
       <div id="liveToastContainer">
+        {% if messages %}
+        {% for message in messages %}
         {% if message.tags == 'success' and ( 'welcome' in message|lower or
         'logged' in message|lower or 'logout' in message|lower or 'see you' in
         message|lower or 'signup' in message|lower ) %}
@@ -85,7 +87,9 @@
             ></button>
           </div>
         </div>
-        {% endif %} {% endfor %} {% endif %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
       </div>
     </div>
 
