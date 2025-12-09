@@ -28,6 +28,10 @@ def booking_create(request):
         return redirect('trainer:booking_list')
 
     if request.method == 'POST':
+        # 🔥 CLEAR ANY EXISTING SUCCESS MESSAGES TO PREVENT DUPLICATES
+        storage = messages.get_messages(request)
+        list(storage)  # forces clearing
+
         form = BookingForm(request.POST, user=request.user)
         if form.is_valid():
             booking = form.save(commit=False)
@@ -36,8 +40,11 @@ def booking_create(request):
             booking.client_name = booking.client.get_full_name() or booking.client.username
             booking.client_contact = booking.client.email
             booking.save()
+
+            # 🔥 Only one success message will be present now
             messages.success(request, f"Booking created for {booking.client_name}!")
             return redirect('trainer:booking_list')
+
     else:
         form = BookingForm(user=request.user)
 
@@ -114,10 +121,10 @@ def signup(request):
             role = form.cleaned_data['role']
             if role == 'trainer':
                 user.is_staff = True
-                welcome_msg = "Welcome, Trainer! You can now manage bookings."
+                welcome_msg = "Welcome, Trainer! You can now manage bookings with your clients."
             else:
                 user.is_staff = False
-                welcome_msg = "Welcome! You can now book sessions with trainers."
+                welcome_msg = "Welcome! You can now view sessions with trainers."
 
             user.save()
             login(request, user)
