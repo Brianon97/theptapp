@@ -36,7 +36,6 @@ class Booking(models.Model):
         client_str = self.client.get_full_name() or self.client.username if self.client else self.client_name
         return f"{client_str} → {trainer_name}"
     
-class TrainerProfile(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
