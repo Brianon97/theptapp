@@ -12,7 +12,4 @@ urlpatterns = [
     path('client/<int:user_id>/', views.client_detail, name='client_detail'),
     path('signup/', views.signup, name='signup'),
     path('notifications/check/', views.check_notifications, name='check_notifications'),
-    path('trainers/', views.trainer_list, name='trainer_list'),
-    
-    
 ]
