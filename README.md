@@ -5,55 +5,108 @@
 **Time**: November 15, 2025 04:17 PM GMT (IE)
 
 ## Purpose
-This appp is designed personal trainers to a manage bookings between them and their clients who create and account.
+Personal trainer booking system with role-based access (Client / Trainer).
 
 ## Table of Content
-- **User Stories**
-- **UX Design**
-- **Features**
-- **Testing and Validation**
-- **Deployment**
-- **AI Usage**
-- **Credits**
+- [User Stories](#user-stories)
+- [UX Design](#ux-design)
+- [Features](#features)
+- [Testing and Validation](#testing-and-validation)
+- [Deployment](#deployment)
+- [AI Usage](#ai-usage)
+- [Credits](#credits)
 
 ## User Stories
-## Must Have:
+
+- For this project I used an agile workflow approach. This involved developing user stories that include the key features of the app. I prioritized these features by breaking them into small tasks and labeling them in 1 of 3 ways 1.Must have 2.Should have & 3.Could have (known as The MoSCow system ).I came with these stories from my own experience with booking software and with help from AI.
+
+### Must Have:
 - As a user, I want to register a form in order to create an account.
 - As a user, I want to access the login form so I can manage my bookings.
 - As a user, I want to edit, cancel and manage the status of my bookings.
 - As a user, I want to be notified when I make or cancel a booking.
 - As a user, I want to be able to take notes and view the date of the booking.
 
-## Should Have:
+### Should Have:
 - As a client, I should have options of packages to choose from.
 - As a user, I should have a separate page for the trainer and client.
 - As a client, I should be able to cancel and reschedule bookings that notify the trainer.
 - As a user I should be able to leave testimonial reviews.
+- As a user I should be able to make payments through strip integration.
 
-## Could Have:
+
+### Could Have:
 - As a user, have motivational tips to leave in the client page.
 - As a user I could have a section for diet plans that allows you to view and choose food preferences and current plans.
 - As a user I want input workouts to track my progress in strength, weight or other goals.
 - As a user, I want to view workout plans and be able to save/bookmark my favorite.
-- As a user, I want to change the background theme so that I can personalise the app.
+- As a user, I want to change the background theme so that I can personalize the app.
 - As a user, I want to share completed workouts on social media.
-- As a user I should be able to make payments through strip integration.
+
+## UX Design
+
+### Wireframe
+
+![Sign up Wireframe](assets/images/wireframes/Signup-wireframe.png)
+*Home page with hero section and call-to-action buttons*
+
+![Sign up mobile Wireframe](assets/images/wireframes/Signupmobile-wireframe.png)
+*Booking management page showing all bookings in table format*
+
+![Booking Form Wireframe](assets/images/wireframes/booking-form-wireframe.png)
+*Form for creating and editing bookings with date, time, and notes fields*
+
+
+
+### ERD
+
+![Database Entity Relationship Diagram](assets/images/erd/523854091-155120e0-9b63-412b-aa5b-449150ad6053.svg)
+*Database schema showing relationships between User, Booking, and TrainerProfile models*
+
+### Colors and fonts
+
+This project uses clear and modern text styling to ensure readability and health themed colors :
+
+-**🎨 Primary Brand Colors:**
+
+- Cyan/Turquoise: #00d4ff (signup button, footer links)
+- Cyan Hover: #00b0d4 (signup button hover)
+- Navy Blue Gradient: #1e3c72 to #2a5298 (navbar)
+- Dark Footer: #111 (footer background)
+
+- **Font Family:** Uses **Segoe UI**, with **sans-serif** as a fallback for a clean, modern look.
+- **Font Size:** The base font size is **16px**, set through a CSS variable (`var(--bs-body-font-size)`) for responsive flexibility.
+- **Text Color:** The text color is **white** (`rgb(255, 255, 255)`), applied using Bootstrap-style variables to maintain consistent color and opacity.
+- **New Booking Button Color:**
+The button is green - btn-success in Bootstrap gives it a green background color to stand out for the user to see clearly.
+- **Save Booking Button Color:**
+- The button is blue - btn-primary in Bootstrap gives it a blue background color to match the theme of the site.
+- **Cancel Booking Button Color:**
+- The cancel button is red - bg-danger in Bootstrap gives it a red background color, with white text for users to easily identify .
+
+### 🎯 DESIGN SYSTEM SUMMARY
+- Framework: Bootstrap 5.3.3
+- Icon Library: Font Awesome 6.5.0
+- Main Font: Segoe UI (system font)
+- Theme: Modern, clean design with blue/cyan accent colors and navy gradient navbar
+
+
+
 
 ## Features
-- Client: Book, view, edit, cancel sessions
-- Trainer: View all bookings in admin
-- Responsive UI (Bootstrap 5)
+- User have the ability to create accounts as clients or trainers.
+- User Authentication verifies the user and displays appropriated layouts.
+- Clients: View and cancel sessions,
+- Trainer: Create, edit and cancel sessions.
+- Responsive UI across devices 
 - Form validation
 - Secure login
+- Notifications on sign up, login, logout, booking creation, edit & cancel.
 
+## Deployment
+- Platform: Heroku
+## Testing
 
-
-
-## Tech Stack
-- **Python 3.12**
-- **Django 4.2.26**
-- **SQLite** (dev) / **PostgreSQL** (Heroku)
-- **Bootstrap 5** + **django-crispy-forms**
 
 ## AI Usage 
 - Generated `Booking` model with proper fields
@@ -61,9 +114,47 @@ This appp is designed personal trainers to a manage bookings between them and th
 - Helped write form validation logic
 - Created unit test skeleton
 
-> **Outcome**: Saved 2+ hours, improved code quality, caught 1 bug early.
+## Future Enhancements
+- Add functionality that allows clients to book available slots from a drop down menu which notifies the trainer.
+- Include notifications for any canceled bookings between trainer or client.
+- Develop a section for input putting and receiving workout and diet plans.
+- Introduce a message section for two way communication during business hours.
 
-## Deployment
+## Credits
 
+### Code and Libraries
+- **[Django](https://www.djangoproject.com/)** - Python web framework for rapid development
+- **[Bootstrap 5.3.3](https://getbootstrap.com/)** - Frontend framework for responsive design
+- **[Font Awesome 6.5.0](https://fontawesome.com/)** - Icon library for UI elements
+- **[django-crispy-forms](https://django-crispy-forms.readthedocs.io/)** - Form rendering library
+- **[WhiteNoise](http://whitenoise.evans.io/)** - Static file serving for Python web apps
 
-## Credits 
+### Deployment and Hosting
+- **[Heroku](https://www.heroku.com/)** - Cloud platform for deployment
+- **[PostgreSQL](https://www.postgresql.org/)** - Production database
+- **[Gunicorn](https://gunicorn.org/)** - Python WSGI HTTP server
+
+### Development Tools
+- **[GitHub Copilot](https://github.com/features/copilot)** - AI-powered code completion and assistance
+- **[VS Code](https://code.visualstudio.com/)** - Code editor
+
+### Learning Resources
+- **[Django Documentation](https://docs.djangoproject.com/)** - Official Django guides and tutorials
+- **[Bootstrap Documentation](https://getbootstrap.com/docs/)** - UI component examples and reference
+- **[MDN Web Docs](https://developer.mozilla.org/)** - Web development documentation
+- **[Stack Overflow](https://stackoverflow.com/)** - Community support and problem-solving
+
+### Inspiration and Design
+- Modern PT booking systems and fitness apps for UI/UX inspiration
+- Bootstrap examples for responsive layout patterns
+
+### Special Thanks
+- Code Institute for project guidance and support
+- My mentor for valuable feedback throughout development
+- The Django and Bootstrap communities for excellent documentation
+
+---
+
+**Developer**: Brian O'Neill  
+**GitHub**: [Brianon97](https://github.com/Brianon97)  
+**Project Repository**: [theptapp](https://github.com/Brianon97/theptapp)
