@@ -111,6 +111,10 @@ Lighthouse performance and accessibility checks were run on home and booking pag
 - **Booking (Mobile)** ![Lighthouse Booking Mobile](assets/images/testing/lighthouse-mobile.booking.png)
 - **Booking (Desktop)** ![Lighthouse Booking Desktop](assets/images/testing/lighthouse-desktop.bookings.png.png)
 
+### Summary 
+- The home page for both mobile and desktop is technically fast and well-structured, earning perfect or near-perfect scores except SEO.
+- SEO score of 40 indicates major search-indexing issues: The redirect to login (/accounts/login/?next=/bookings/) is likely blocking crawlers. Pages behind authentication don’t get indexed, leading to low SEO.
+
 
 ## Manual Testing
 
@@ -120,6 +124,21 @@ Lighthouse performance and accessibility checks were run on home and booking pag
 - Browser Compatibility: Verified on Chrome, Firefox, Safari, and Edge
 - Interactive Features: New booking, save booking, edit, and cancel buttons work without errors
 - Data Validation: Form validation and error handling across mandatory input fields
+
+## Html validation 
+## Css validation
+- https://jigsaw.w3.org/css-validator/
+
+- 1 Error. 
+- ![jigsaw error](assets/images/testing/jigsaw.png)
+- It's a CSS validation warning from Font Awesome's minified stylesheet
+- This is a known issue with Font Awesome's CSS.
+- The validator complains because none isn't a valid transform value in the CSS spec. However, Font Awesome's JavaScript handles this at runtime by setting the actual --fa-rotate-angle CSS variable to a real value like 45deg.
+- All modern browsers (Chrome, Firefox, Safari, Edge) support and render it correctly
+- No, you can't fix it—it's in the external Font Awesome library
+- Changing it would break the library's functionality
+This warning is cosmetic and doesn't impact user experience
+
 
 
 ## AI Usage 
