@@ -1,8 +1,7 @@
 # theptapp
 
-**Live URL**: https://mytrainerapp-ie-2025.herokuapp.com  
-**GitHub**: https://github.com/YOUR_USERNAME/mytrainerapp  
-**Time**: November 15, 2025 04:17 PM GMT (IE)
+**Live URL**: https://theptapp-351a22750912.herokuapp.com/ 
+**GitHub**: https://github.com/Brianon97/theptapp  
 
 ## Purpose
 Personal trainer booking system with role-based access (Client / Trainer).
@@ -55,8 +54,6 @@ Personal trainer booking system with role-based access (Client / Trainer).
 
 ![Booking Form Wireframe](assets/images/wireframes/booking-form-wireframe.png)
 *Form for creating and editing bookings with date, time, and notes fields*
-
-
 
 ### ERD
 
