@@ -46,8 +46,7 @@ This appp is designed personal trainers to a manage bookings between them and th
 - Form validation
 - Secure login
 
-## Entity Relationship Diagram
-![mermaid-diagram (1)](https://github.com/user-attachments/assets/155120e0-9b63-412b-aa5b-449150ad6053)
+
 
 
 ## Tech Stack
