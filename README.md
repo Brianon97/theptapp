@@ -104,6 +104,23 @@ The button is green - btn-success in Bootstrap gives it a green background color
 
 ## Testing and Validation
 
+Lighthouse performance and accessibility checks were run on home and booking pages for both mobile and desktop profiles. Results snapshots are below:
+
+- **Home (Mobile)** ![Lighthouse Home Mobile](assets/images/testing/lighthouse-mobile.home.png)
+- **Home (Desktop)** ![Lighthouse Home Desktop](assets/images/testing/lighthouse-desktop.home.png)
+- **Booking (Mobile)** ![Lighthouse Booking Mobile](assets/images/testing/lighthouse-mobile.booking.png)
+- **Booking (Desktop)** ![Lighthouse Booking Desktop](assets/images/testing/lighthouse-desktop.bookings.png.png)
+
+
+## Manual Testing
+
+- Authentication: Registration, login, logout with trainer/client conditions
+- CRUD Operations: Create, read, update, and delete work without errors
+- Responsive Design: Proper layout adaptation across mobile, tablet, and desktop
+- Browser Compatibility: Verified on Chrome, Firefox, Safari, and Edge
+- Interactive Features: New booking, save booking, edit, and cancel buttons work without errors
+- Data Validation: Form validation and error handling across mandatory input fields
+
 
 ## AI Usage 
 - Generated `Booking` model with proper fields
