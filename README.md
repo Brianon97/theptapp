@@ -1,7 +1,6 @@
 # theptapp
 
 **Live URL**: https://theptapp-351a22750912.herokuapp.com/ 
-**GitHub**: https://github.com/Brianon97/theptapp  
 
 ## Purpose
 Personal trainer booking system with role-based access (Client / Trainer).
@@ -11,8 +10,9 @@ Personal trainer booking system with role-based access (Client / Trainer).
 - [UX Design](#ux-design)
 - [Features](#features)
 - [Testing and Validation](#testing-and-validation)
-- [Deployment](#deployment)
 - [AI Usage](#ai-usage)
+- [Future Enhancements](#Future Enhancements)
+- [Deployment](#Deployment and Hosting)
 - [Credits](#credits)
 
 ## User Stories
@@ -46,19 +46,23 @@ Personal trainer booking system with role-based access (Client / Trainer).
 
 ### Wireframe
 
+#### Sign up Wireframe
 ![Sign up Wireframe](assets/images/wireframes/Signup-wireframe.png)
-*Home page with hero section and call-to-action buttons*
 
+
+#### Sign up mobile Wireframe
 ![Sign up mobile Wireframe](assets/images/wireframes/Signupmobile-wireframe.png)
-*Booking management page showing all bookings in table format*
 
+
+#### Booking Form Wireframe
 ![Booking Form Wireframe](assets/images/wireframes/booking-form-wireframe.png)
-*Form for creating and editing bookings with date, time, and notes fields*
+
 
 ### ERD
 
 ![Database Entity Relationship Diagram](assets/images/erd/523854091-155120e0-9b63-412b-aa5b-449150ad6053.svg)
-*Database schema showing relationships between User, Booking, and TrainerProfile models*
+
+*Database schema showing relationships between ClientProfile, Booking, and TrainerProfile models*
 
 ### Colors and fonts
 
@@ -87,9 +91,6 @@ The button is green - btn-success in Bootstrap gives it a green background color
 - Main Font: Segoe UI (system font)
 - Theme: Modern, clean design with blue/cyan accent colors and navy gradient navbar
 
-
-
-
 ## Features
 - User have the ability to create accounts as clients or trainers.
 - User Authentication verifies the user and displays appropriated layouts.
@@ -100,9 +101,8 @@ The button is green - btn-success in Bootstrap gives it a green background color
 - Secure login
 - Notifications on sign up, login, logout, booking creation, edit & cancel.
 
-## Deployment
-- Platform: Heroku
-## Testing
+
+## Testing and Validation
 
 
 ## AI Usage 
@@ -117,6 +117,39 @@ The button is green - btn-success in Bootstrap gives it a green background color
 - Develop a section for input putting and receiving workout and diet plans.
 - Introduce a message section for two way communication during business hours.
 
+## Deployment and Hosting
+
+**Live Application:** https://theptapp-351a22750912.herokuapp.com/
+
+The PT App is deployed on the Heroku Cloud Platform for reliable hosting and scalability. Production uses PostgreSQL via Heroku Postgres for robust data management, and WhiteNoise middleware serves static files efficiently to keep CSS, JavaScript, and images fast.
+
+**Heroku Deployment Process**
+- Prereqs: Heroku account + Heroku CLI, committed Git repo, complete `requirements.txt`, and a `Procfile` for process management.
+- Create app: `heroku create theptapp`
+- Add Postgres: `heroku addons:create heroku-postgresql:hobby-dev`
+- Env vars: `heroku config:set SECRET_KEY=your-secret-key-here` and `heroku config:set DEBUG=False`
+- Deploy: `git push heroku main`
+- Migrate DB: `heroku run python manage.py migrate`
+- Create admin: `heroku run python manage.py createsuperuser`
+- Collect static: `heroku run python manage.py collectstatic --noinput`
+
+**Local Development Setup**
+- Clone: `git clone https://github.com/Brianon97/theptapp.git` then `cd theptapp`
+- Virtualenv: `python -m venv venv` and activate (`source venv/bin/activate` or `venv\Scripts\activate`)
+- Install deps: `pip install -r requirements.txt`
+- Local env: add `SECRET_KEY` and `DEBUG=True` to `env.py` or `.env`
+- DB prep: `python manage.py makemigrations` then `python manage.py migrate`
+- Admin user: `python manage.py createsuperuser`
+- Run server: `python manage.py runserver`
+
+**Production Configuration**
+- CSRF trusted origins include the Heroku domain
+- PostgreSQL for production persistence
+- WhiteNoise for static files (no separate CDN needed)
+- Gunicorn as the WSGI server
+- Secrets managed via Heroku config vars
+
+
 ## Credits
 
 ### Code and Libraries
@@ -125,11 +158,6 @@ The button is green - btn-success in Bootstrap gives it a green background color
 - **[Font Awesome 6.5.0](https://fontawesome.com/)** - Icon library for UI elements
 - **[django-crispy-forms](https://django-crispy-forms.readthedocs.io/)** - Form rendering library
 - **[WhiteNoise](http://whitenoise.evans.io/)** - Static file serving for Python web apps
-
-### Deployment and Hosting
-- **[Heroku](https://www.heroku.com/)** - Cloud platform for deployment
-- **[PostgreSQL](https://www.postgresql.org/)** - Production database
-- **[Gunicorn](https://gunicorn.org/)** - Python WSGI HTTP server
 
 ### Development Tools
 - **[GitHub Copilot](https://github.com/features/copilot)** - AI-powered code completion and assistance
