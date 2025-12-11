@@ -86,30 +86,26 @@ User stories were developed based on personal experience with booking software a
 
 ### Colors and fonts
 
-This project uses clear and modern text styling to ensure readability and health-themed colors:
+This project uses clear and modern text styling to ensure readability and health themed colors :
 
-### 🎨 Color Palette
+- ** Primary Brand Colors:**
 
-### Color Palette
+- Cyan/Turquoise: #00d4ff (signup button, footer links)
+- Cyan Hover: #00b0d4 (signup button hover)
+- Navy Blue Gradient: #1e3c72 to #2a5298 (navbar)
+- Dark Footer: #111 (footer background)
 
-| Color                  | Hex Code    | Usage                              |
-|------------------------|-------------|------------------------------------|
-| <span style="color:#00d4ff">■■■■</span> Cyan/Turquoise | `#00d4ff` | Signup button, footer links        |
-| <span style="color:#00b0d4">■■■■</span> Cyan Hover      | `#00b0d4` | Signup button hover state          |
-| <span style="color:#1e3c72">■■■■</span> Navy Blue → <span style="color:#2a5298">■■■■</span> | `#1e3c72 → #2a5298` | Navbar gradient                    |
-| <span style="color:#111111">■■■■</span> Dark Footer     | `#111111` | Footer background                  |
-| <span style="color:#28a745">■■■■</span> Success Green   | `btn-success` | New booking button                 |
-| <span style="color:#007bff">■■■■</span> Primary Blue    | `btn-primary` | Save booking button                |
-| <span style="color:#dc3545">■■■■</span> Danger Red      | `bg-danger`   | Cancel booking button              |
+- **Font Family:** Uses **Segoe UI**, with **sans-serif** as a fallback for a clean, modern look.
+- **Font Size:** The base font size is **16px**, set through a CSS variable (`var(--bs-body-font-size)`) for responsive flexibility.
+- **Text Color:** The text color is **white** (`rgb(255, 255, 255)`), applied using Bootstrap-style variables to maintain consistent color and opacity.
+- **New Booking Button Color:**
+The button is green - btn-success in Bootstrap gives it a green background color to stand out for the user to see clearly.
+- **Save Booking Button Color:**
+- The button is blue - btn-primary in Bootstrap gives it a blue background color to match the theme of the site.
+- **Cancel Booking Button Color:**
+- The cancel button is red - bg-danger in Bootstrap gives it a red background color, with white text for users to easily identify .
 
-
-### Typography
-
-- **Font Family:** Segoe UI, sans-serif (clean, modern system font)
-- **Base Font Size:** 16px (via CSS variable `var(--bs-body-font-size)`)
-- **Primary Text Color:** White (`#ffffff`) for high contrast against dark backgrounds
-
-###  DESIGN SYSTEM SUMMARY
+### 🎯 DESIGN SYSTEM SUMMARY
 - Framework: Bootstrap 5.3.3
 - Icon Library: Font Awesome 6.5.0
 - Main Font: Segoe UI (system font)
@@ -133,7 +129,7 @@ Lighthouse performance and accessibility checks were run on home and booking pag
 - **Home (Mobile)** ![Lighthouse Home Mobile](assets/images/testing/lighthouse-mobile.home.png)
 - **Home (Desktop)** ![Lighthouse Home Desktop](assets/images/testing/lighthouse-desktop.home.png)
 - **Booking (Mobile)** ![Lighthouse Booking Mobile](assets/images/testing/lighthouse-mobile.booking.png)
-- **Booking (Desktop)** ![Lighthouse Booking Desktop](assets/images/testing/lighthouse-desktop.bookings.png.png)
+- **Booking (Desktop)** ![Lighthouse Booking Desktop](assets/images/testing/lighthouse-desktop.bookings.png)
 
 ### Summary 
 - The home page for both mobile and desktop is technically fast and well-structured, earning perfect or near-perfect scores except SEO.
@@ -149,8 +145,13 @@ Lighthouse performance and accessibility checks were run on home and booking pag
 - Interactive Features: New booking, save booking, edit, and cancel buttons work without errors
 - Data Validation: Form validation and error handling across mandatory input fields
 
-## Html validation 
-## Css validation
+### HTML Validation
+
+HTML validation was performed using the [W3C Markup Validation Service](https://validator.w3.org/) and showed **0 errors** for the theptapp.
+
+![HTML Validation Results](assets/images/testing/HTMLValidation.png)
+
+### CSS Validation
 - https://jigsaw.w3.org/css-validator/
 
 - 1 Error. 
@@ -234,12 +235,9 @@ The PT App is deployed on the Heroku Cloud Platform for reliable hosting and sca
 - Bootstrap examples for responsive layout patterns
 
 ### Special Thanks
-- Code Institute for project guidance and support
-- My mentor for valuable feedback throughout development
-- The Django and Bootstrap communities for excellent documentation
+- Code Institutes tutors and mentors for project guidance, support and all the valuable feedback throughout development
 
----
 
-**Developer**: Brian O'Neill  
-**GitHub**: [Brianon97](https://github.com/Brianon97)  
-**Project Repository**: [theptapp](https://github.com/Brianon97/theptapp)
+## Developer
+
+- Brian O'Neill  
