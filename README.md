@@ -46,15 +46,18 @@ Personal trainer booking system with role-based access (Client / Trainer).
 
 ### Wireframe
 
-#### Sign up Wireframe
+
+
+-**Sign up desktop:**
+
 ![Sign up Wireframe](assets/images/wireframes/Signup-wireframe.png)
 
+-**Sign up mobile:**
 
-#### Sign up mobile Wireframe
 ![Sign up mobile Wireframe](assets/images/wireframes/Signupmobile-wireframe.png)
 
+-**Booking Form:**
 
-#### Booking Form Wireframe
 ![Booking Form Wireframe](assets/images/wireframes/booking-form-wireframe.png)
 
 
