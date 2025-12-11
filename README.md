@@ -90,15 +90,18 @@ This project uses clear and modern text styling to ensure readability and health
 
 ### 🎨 Color Palette
 
-| Color | Hex Code | Usage |
-|-------|----------|-------|
-| ![#00d4ff](https://via.placeholder.com/15/00d4ff/00d4ff.png) Cyan/Turquoise | `#00d4ff` | Signup button, footer links |
-| ![#00b0d4](https://via.placeholder.com/15/00b0d4/00b0d4.png) Cyan Hover | `#00b0d4` | Signup button hover state |
-| ![#1e3c72](https://via.placeholder.com/15/1e3c72/1e3c72.png) Navy Blue | `#1e3c72` → `#2a5298` | Navbar gradient |
-| ![#111111](https://via.placeholder.com/15/111111/111111.png) Dark Footer | `#111` | Footer background |
-| ![#28a745](https://via.placeholder.com/15/28a745/28a745.png) Success Green | Bootstrap `btn-success` | New booking button |
-| ![#007bff](https://via.placeholder.com/15/007bff/007bff.png) Primary Blue | Bootstrap `btn-primary` | Save booking button |
-| ![#dc3545](https://via.placeholder.com/15/dc3545/dc3545.png) Danger Red | Bootstrap `bg-danger` | Cancel booking button |
+### Color Palette
+
+| Color                  | Hex Code    | Usage                              |
+|------------------------|-------------|------------------------------------|
+| <span style="color:#00d4ff">■■■■</span> Cyan/Turquoise | `#00d4ff` | Signup button, footer links        |
+| <span style="color:#00b0d4">■■■■</span> Cyan Hover      | `#00b0d4` | Signup button hover state          |
+| <span style="color:#1e3c72">■■■■</span> Navy Blue → <span style="color:#2a5298">■■■■</span> | `#1e3c72 → #2a5298` | Navbar gradient                    |
+| <span style="color:#111111">■■■■</span> Dark Footer     | `#111111` | Footer background                  |
+| <span style="color:#28a745">■■■■</span> Success Green   | `btn-success` | New booking button                 |
+| <span style="color:#007bff">■■■■</span> Primary Blue    | `btn-primary` | Save booking button                |
+| <span style="color:#dc3545">■■■■</span> Danger Red      | `bg-danger`   | Cancel booking button              |
+
 
 ### Typography
 
@@ -106,7 +109,7 @@ This project uses clear and modern text styling to ensure readability and health
 - **Base Font Size:** 16px (via CSS variable `var(--bs-body-font-size)`)
 - **Primary Text Color:** White (`#ffffff`) for high contrast against dark backgrounds
 
-### 🎯 DESIGN SYSTEM SUMMARY
+###  DESIGN SYSTEM SUMMARY
 - Framework: Bootstrap 5.3.3
 - Icon Library: Font Awesome 6.5.0
 - Main Font: Segoe UI (system font)
