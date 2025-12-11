@@ -3,7 +3,7 @@
 **Live URL**: https://theptapp-351a22750912.herokuapp.com/ 
 
 ## Purpose
-Personal trainer booking system with role-based access (Client / Trainer).
+Personal trainer booking system with role-based access (Client / Trainer). The currently allows registered clients to view and cancle bookings made my registered trainer. Trainers have the ability to create, edit and cancle bookings with registered clients. Furture developement will look improve features for usability for both user such as date selection and push notications.
 
 ## Table of Contents
 - [User Stories](#user-stories)
@@ -75,7 +75,7 @@ User stories were developed based on personal experience with booking software a
 - A user with `is_staff = True` is a **Trainer**; `is_staff = False` is a **Client**.
 - The `Booking` model links trainers and clients via foreign keys.
 - `client_name` and `client_contact` are fallback fields (in case a client account is deleted).
-- One trainer can have many bookings; one client can have many bookings.
+- One trainer can have many bookings; one client can view many bookings.
 - No separate profile tables are used — keeping the app simple, fast, and maintainable.
 
 ![Database Entity Relationship Diagram](assets/images/erd/523854091-155120e0-9b63-412b-aa5b-449150ad6053.svg)
@@ -103,7 +103,7 @@ The button is green - btn-success in Bootstrap gives it a green background color
 - **Cancel Booking Button Color:**
 - The cancel button is red - bg-danger in Bootstrap gives it a red background color, with white text for users to easily identify .
 
-### 🎯 DESIGN SYSTEM SUMMARY
+###  DESIGN SYSTEM SUMMARY
 - Framework: Bootstrap 5.3.3
 - Icon Library: Font Awesome 6.5.0
 - Main Font: Segoe UI (system font)
@@ -124,8 +124,6 @@ The button is green - btn-success in Bootstrap gives it a green background color
 - Include notifications for any canceled bookings between trainer or client.
 - Develop a section for input putting and receiving workout and diet plans.
 - Introduce a message section for two way communication during business hours.
-
-
 
 ## Testing and Validation
 
@@ -169,14 +167,12 @@ HTML validation was performed using the [W3C Markup Validation Service](https://
 - Changing it would break the library's functionality
 This warning is cosmetic and doesn't impact user experience
 
-
-
 ## AI Usage 
-- Generated `Booking` model with proper fields
-- Suggested admin list display and filters
+- Co pilot assisted in creating a `Booking` model with proper fields
+- Suggested semantic HTML improvements
 - Helped write form validation logic
 - Created unit test skeleton
-
+  
 ## Deployment and Hosting
 
 **Live Application:** https://theptapp-351a22750912.herokuapp.com/
