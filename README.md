@@ -17,7 +17,17 @@ Personal trainer booking system with role-based access (Client / Trainer).
 
 ## User Stories
 
-- For this project I used an agile workflow approach. This involved developing user stories that include the key features of the app. I prioritized these features by breaking them into small tasks and labeling them in 1 of 3 ways 1.Must have 2.Should have & 3.Could have (known as The MoSCow system ).I came with these stories from my own experience with booking software and with help from AI.
+### Agile Workflow Approach
+
+This project follows an **Agile methodology** with user stories representing key features of the application. Features were prioritized using the **MoSCoW system**:
+
+1. **Must Have** - Critical features required for the app to function
+2. **Should Have** - Important features that add significant value
+3. **Could Have** - Nice-to-have features for future enhancement
+
+User stories were developed based on personal experience with booking software and with AI assistance. The **GitHub Projects board** was used to manage and track progress throughout the development lifecycle, with "Must Have" features moved to the completed section first, followed by other priorities.
+
+**📋 View the Project Board:** [GitHub Projects](https://github.com/users/Brianon97/projects/9)
 
 ### Must Have:
 - As a user, I want to register a form in order to create an account.
