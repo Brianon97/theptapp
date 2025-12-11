@@ -9,9 +9,9 @@ Personal trainer booking system with role-based access (Client / Trainer).
 - [User Stories](#user-stories)
 - [UX Design](#ux-design)
 - [Features](#features)
+- [Future Enhancements](#future-enhancements)
 - [Testing and Validation](#testing-and-validation)
 - [AI Usage](#ai-usage)
-- [Future Enhancements](#future-enhancements)
 - [Deployment and Hosting](#deployment-and-hosting)
 - [Credits](#credits)
 
@@ -55,8 +55,6 @@ User stories were developed based on personal experience with booking software a
 ## UX Design
 
 ### Wireframe
-
-
 
 - **Sign up desktop:**
 
@@ -121,6 +119,13 @@ The button is green - btn-success in Bootstrap gives it a green background color
 - Secure login
 - Notifications on sign up, login, logout, booking creation, edit & cancel.
 
+## Future Enhancements
+- Add functionality that allows clients to book available slots from a drop down menu which notifies the trainer.
+- Include notifications for any canceled bookings between trainer or client.
+- Develop a section for input putting and receiving workout and diet plans.
+- Introduce a message section for two way communication during business hours.
+
+
 
 ## Testing and Validation
 
@@ -172,12 +177,6 @@ This warning is cosmetic and doesn't impact user experience
 - Helped write form validation logic
 - Created unit test skeleton
 
-## Future Enhancements
-- Add functionality that allows clients to book available slots from a drop down menu which notifies the trainer.
-- Include notifications for any canceled bookings between trainer or client.
-- Develop a section for input putting and receiving workout and diet plans.
-- Introduce a message section for two way communication during business hours.
-
 ## Deployment and Hosting
 
 **Live Application:** https://theptapp-351a22750912.herokuapp.com/
@@ -225,14 +224,11 @@ The PT App is deployed on the Heroku Cloud Platform for reliable hosting and sca
 - **[VS Code](https://code.visualstudio.com/)** - Code editor
 
 ### Learning Resources
-- **[Django Documentation](https://docs.djangoproject.com/)** - Official Django guides and tutorials
+- **[Code institute](https://codeinstitute.net/global/)** - Full Stack Development for the AI Augmented Developer
 - **[Bootstrap Documentation](https://getbootstrap.com/docs/)** - UI component examples and reference
-- **[MDN Web Docs](https://developer.mozilla.org/)** - Web development documentation
+
 - **[Stack Overflow](https://stackoverflow.com/)** - Community support and problem-solving
 
-### Inspiration and Design
-- Modern PT booking systems and fitness apps for UI/UX inspiration
-- Bootstrap examples for responsive layout patterns
 
 ### Special Thanks
 - Code Institutes tutors and mentors for project guidance, support and all the valuable feedback throughout development
