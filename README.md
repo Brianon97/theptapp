@@ -5,14 +5,14 @@
 ## Purpose
 Personal trainer booking system with role-based access (Client / Trainer).
 
-## Table of Content
+## Table of Contents
 - [User Stories](#user-stories)
 - [UX Design](#ux-design)
 - [Features](#features)
 - [Testing and Validation](#testing-and-validation)
 - [AI Usage](#ai-usage)
-- [Future Enhancements](#Future Enhancements)
-- [Deployment](#Deployment and Hosting)
+- [Future Enhancements](#future-enhancements)
+- [Deployment and Hosting](#deployment-and-hosting)
 - [Credits](#credits)
 
 ## User Stories
@@ -58,45 +58,53 @@ User stories were developed based on personal experience with booking software a
 
 
 
--**Sign up desktop:**
+- **Sign up desktop:**
 
 ![Sign up Wireframe](assets/images/wireframes/Signup-wireframe.png)
 
--**Sign up mobile:**
+- **Sign up mobile:**
 
 ![Sign up mobile Wireframe](assets/images/wireframes/Signupmobile-wireframe.png)
 
--**Booking Form:**
+- **Booking Form:**
 
 ![Booking Form Wireframe](assets/images/wireframes/booking-form-wireframe.png)
 
 
 ### ERD
 
+- - The core of the app is built around Django's built-in `User` model.
+- A user with `is_staff = True` is a **Trainer**; `is_staff = False` is a **Client**.
+- The `Booking` model links trainers and clients via foreign keys.
+- `client_name` and `client_contact` are fallback fields (in case a client account is deleted).
+- One trainer can have many bookings; one client can have many bookings.
+- No separate profile tables are used — keeping the app simple, fast, and maintainable.
+
 ![Database Entity Relationship Diagram](assets/images/erd/523854091-155120e0-9b63-412b-aa5b-449150ad6053.svg)
 
-*Database schema showing relationships between ClientProfile, Booking, and TrainerProfile models*
+
 
 ### Colors and fonts
 
-This project uses clear and modern text styling to ensure readability and health themed colors :
+This project uses clear and modern text styling to ensure readability and health-themed colors:
 
--**🎨 Primary Brand Colors:**
+### 🎨 Color Palette
 
-- Cyan/Turquoise: #00d4ff (signup button, footer links)
-- Cyan Hover: #00b0d4 (signup button hover)
-- Navy Blue Gradient: #1e3c72 to #2a5298 (navbar)
-- Dark Footer: #111 (footer background)
+| Color | Hex Code | Usage |
+|-------|----------|-------|
+| ![#00d4ff](https://via.placeholder.com/15/00d4ff/00d4ff.png) Cyan/Turquoise | `#00d4ff` | Signup button, footer links |
+| ![#00b0d4](https://via.placeholder.com/15/00b0d4/00b0d4.png) Cyan Hover | `#00b0d4` | Signup button hover state |
+| ![#1e3c72](https://via.placeholder.com/15/1e3c72/1e3c72.png) Navy Blue | `#1e3c72` → `#2a5298` | Navbar gradient |
+| ![#111111](https://via.placeholder.com/15/111111/111111.png) Dark Footer | `#111` | Footer background |
+| ![#28a745](https://via.placeholder.com/15/28a745/28a745.png) Success Green | Bootstrap `btn-success` | New booking button |
+| ![#007bff](https://via.placeholder.com/15/007bff/007bff.png) Primary Blue | Bootstrap `btn-primary` | Save booking button |
+| ![#dc3545](https://via.placeholder.com/15/dc3545/dc3545.png) Danger Red | Bootstrap `bg-danger` | Cancel booking button |
 
-- **Font Family:** Uses **Segoe UI**, with **sans-serif** as a fallback for a clean, modern look.
-- **Font Size:** The base font size is **16px**, set through a CSS variable (`var(--bs-body-font-size)`) for responsive flexibility.
-- **Text Color:** The text color is **white** (`rgb(255, 255, 255)`), applied using Bootstrap-style variables to maintain consistent color and opacity.
-- **New Booking Button Color:**
-The button is green - btn-success in Bootstrap gives it a green background color to stand out for the user to see clearly.
-- **Save Booking Button Color:**
-- The button is blue - btn-primary in Bootstrap gives it a blue background color to match the theme of the site.
-- **Cancel Booking Button Color:**
-- The cancel button is red - bg-danger in Bootstrap gives it a red background color, with white text for users to easily identify .
+### Typography
+
+- **Font Family:** Segoe UI, sans-serif (clean, modern system font)
+- **Base Font Size:** 16px (via CSS variable `var(--bs-body-font-size)`)
+- **Primary Text Color:** White (`#ffffff`) for high contrast against dark backgrounds
 
 ### 🎯 DESIGN SYSTEM SUMMARY
 - Framework: Bootstrap 5.3.3
