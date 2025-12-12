@@ -41,6 +41,15 @@
 </div>
 {% endif %}
 
+<div class="col-md-6">
+  {{ form.client_contact.label_tag }}
+  {{ form.client_contact }}
+  {% if form.client_contact.errors %}
+    <div class="text-danger small mt-1">{{ form.client_contact.errors|join:", " }}</div>
+  {% endif %}
+  <small class="text-muted">Phone number for reminders (optional)</small>
+</div>
+
       <!-- Date & Time — always shown -->
       <div class="col-md-6">
         {{ form.date.label_tag }} <span class="text-danger">*</span>
