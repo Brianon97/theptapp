@@ -129,8 +129,9 @@ The button is green - btn-success in Bootstrap gives it a green background color
 - Introduce a message section for two way communication during business hours.
 
 ## Testing and Validation
+Lighthouse is an open-source automated website quality testing tool made by Google. Lighthouse performance, accessibility, Best practices, SEO (Search engine optimization) and PWA (Progressive Web App). Checks were run on home and booking pages for both mobile and desktop profiles.
 
-Lighthouse performance and accessibility checks were run on home and booking pages for both mobile and desktop profiles. Results snapshots are below:
+Results snapshots are below:
 
 - **Home (Mobile)** ![Lighthouse Home Mobile](assets/images/testing/lighthouse-mobile.home.png)
 - **Home (Desktop)** ![Lighthouse Home Desktop](assets/images/testing/lighthouse-desktop.home.png)
@@ -141,18 +142,17 @@ Lighthouse performance and accessibility checks were run on home and booking pag
 - The home page for both mobile and desktop is technically fast and well-structured, earning perfect or near-perfect scores except SEO.
 - SEO score of 40 indicates major search-indexing issues: The redirect to login (/accounts/login/?next=/bookings/) is likely blocking crawlers. Pages behind authentication don’t get indexed, leading to low SEO.
 
-
 ## Manual Testing
 
 - Authentication: Registration, login, logout with trainer/client conditions
-- CRUD Operations: Create, read, update, and delete work without errors
-- Responsive Design: Proper layout adaptation across mobile, tablet, and desktop
-- Browser Compatibility: Verified on Chrome, Firefox, Safari, and Edge
-- Interactive Features: New booking, save booking, edit, and cancel buttons work without errors
-- Data Validation: Form validation and error handling across mandatory input fields
+- CRUD Operations: Create, read, update, and delete work without errors.
+- Responsive Design: Proper layout adaptation across mobile, tablet, and desktop.
+- Browser Compatibility: Verified on Chrome, Firefox, and Edge.
+- Interactive Features: New booking, save booking, edit, and cancel buttons work without errors.
+- Data Validation: Form validation and error handling across mandatory input fields.
 
 ### HTML Validation
-
+The W3C Validators are tools that check whether your HTML and CSS follow official specifications syntax errors, invalid tags or attributes etc.
 HTML validation was performed using the [W3C Markup Validation Service](https://validator.w3.org/) and showed **0 errors** for the theptapp.
 
 ![HTML Validation Results](assets/images/testing/HTMLValidation.png)
@@ -165,16 +165,41 @@ HTML validation was performed using the [W3C Markup Validation Service](https://
 - It's a CSS validation warning from Font Awesome's minified stylesheet
 - This is a known issue with Font Awesome's CSS.
 - The validator complains because none isn't a valid transform value in the CSS spec. However, Font Awesome's JavaScript handles this at runtime by setting the actual --fa-rotate-angle CSS variable to a real value like 45deg.
-- All modern browsers (Chrome, Firefox, Safari, Edge) support and render it correctly
+- All modern browsers (Chrome, Firefox, Safari, Edge) support and render it correctly.
 - This error was unable to be fixed as its in the external Font Awesome library.
-- Changing it would break the library's functionality
-This warning is cosmetic and doesn't impact user experience
+- Changing it would break the library's functionality. This warning is cosmetic and doesn't impact user experience
+
+### Python Code Quality (Flake8)
+
+Python code quality was validated using **Flake8**, a linting tool that checks for PEP 8 style guide compliance, syntax errors, and code complexity.
+
+**Command used:**
+```bash
+flake8 . --exclude=venv,migrations,__pycache__
+```
+
+**Initial Results:** 54 issues identified across multiple files including:
+- Import organization (E402, F401)
+- Line length violations (E501 - lines exceeding 79 characters)
+- Missing blank lines (E302)
+- Trailing whitespace (W291, W293)
+- Unused imports (F401)
+
+**Actions Taken:**
+All Flake8 issues were systematically resolved:
+- ✅ Reorganized imports to follow PEP 8 standards (alphabetically ordered, stdlib → third-party → local)
+- ✅ Removed unused imports
+- ✅ Fixed line length by breaking long lines appropriately
+- ✅ Corrected spacing and blank line issues
+- ✅ Added newlines at end of files
+
+**Final Result:** All critical errors resolved. Code now follows PEP 8 style guidelines for improved readability and maintainability.
 
 ## AI Usage 
-- Co pilot assisted in creating a `Booking` model with proper fields
-- Suggested semantic HTML improvements
-- Helped write form validation logic
-- Created unit test skeleton
+- Co pilot assisted in creating a `Booking` model with proper fields.
+- Suggested semantic HTML improvements.
+- Helped write form validation logic.
+- Created unit test skeleton.
   
 ## Deployment and Hosting
 
@@ -185,52 +210,52 @@ The PT App is deployed on the Heroku Cloud Platform for reliable hosting and sca
 **Heroku Deployment Process**
 - Prereqs: Heroku account + Heroku CLI, committed Git repo, complete `requirements.txt`, and a `Procfile` for process management.
 - Create app: `heroku create theptapp`
-- Add Postgres: `heroku addons:create heroku-postgresql:hobby-dev`
-- Env vars: `heroku config:set SECRET_KEY=your-secret-key-here` and `heroku config:set DEBUG=False`
-- Deploy: `git push heroku main`
-- Migrate DB: `heroku run python manage.py migrate`
-- Create admin: `heroku run python manage.py createsuperuser`
-- Collect static: `heroku run python manage.py collectstatic --noinput`
+- Add Postgres: `heroku addons:create heroku-postgresql:hobby-dev`.
+- Env vars: `heroku config:set SECRET_KEY=your-secret-key-here` and `heroku config:set DEBUG=False`.
+- Deploy: `git push heroku main`.
+- Migrate DB: `heroku run python manage.py migrate`.
+- Create admin: `heroku run python manage.py createsuperuser`.
+- Collect static: `heroku run python manage.py collectstatic --noinput`.
 
 **Local Development Setup**
 - Clone: `git clone https://github.com/Brianon97/theptapp.git` then `cd theptapp`
-- Virtualenv: `python -m venv venv` and activate (`source venv/bin/activate` or `venv\Scripts\activate`)
-- Install deps: `pip install -r requirements.txt`
-- Local env: add `SECRET_KEY` and `DEBUG=True` to `env.py` or `.env`
-- DB prep: `python manage.py makemigrations` then `python manage.py migrate`
-- Admin user: `python manage.py createsuperuser`
-- Run server: `python manage.py runserver`
+- Virtualenv: `python -m venv venv` and activate (`source venv/bin/activate` or `venv\Scripts\activate`).
+- Install deps: `pip install -r requirements.txt`.
+- Local env: add `SECRET_KEY` and `DEBUG=True` to `env.py` or `.env`.
+- DB prep: `python manage.py makemigrations` then `python manage.py migrate`.
+- Admin user: `python manage.py createsuperuser`.
+- Run server: `python manage.py runserver`.
 
 **Production Configuration**
-- CSRF trusted origins include the Heroku domain
-- PostgreSQL for production persistence
-- WhiteNoise for static files (no separate CDN needed)
-- Gunicorn as the WSGI server
-- Secrets managed via Heroku config vars
+- CSRF trusted origins include the Heroku domain.
+- PostgreSQL for production persistence.
+- WhiteNoise for static files (no separate CDN needed).
+- Gunicorn as the WSGI server.
+- Secrets managed via Heroku config vars.
 
 
 ## Credits
 
 ### Code and Libraries
-- **[Django](https://www.djangoproject.com/)** - Python web framework for rapid development
-- **[Bootstrap 5.3.3](https://getbootstrap.com/)** - Frontend framework for responsive design
-- **[Font Awesome 6.5.0](https://fontawesome.com/)** - Icon library for UI elements
-- **[django-crispy-forms](https://django-crispy-forms.readthedocs.io/)** - Form rendering library
-- **[WhiteNoise](http://whitenoise.evans.io/)** - Static file serving for Python web apps
+- **[Django](https://www.djangoproject.com/)** - Python web framework for rapid development.
+- **[Bootstrap 5.3.3](https://getbootstrap.com/)** - Frontend framework for responsive design.
+- **[Font Awesome 6.5.0](https://fontawesome.com/)** - Icon library for UI elements.
+- **[django-crispy-forms](https://django-crispy-forms.readthedocs.io/)** - Form rendering library.
+- **[WhiteNoise](http://whitenoise.evans.io/)** - Static file serving for Python web apps.
 
 ### Development Tools
-- **[GitHub Copilot](https://github.com/features/copilot)** - AI-powered code completion and assistance
-- **[VS Code](https://code.visualstudio.com/)** - Code editor
+- **[GitHub Copilot](https://github.com/features/copilot)** - AI-powered code completion and assistance.
+- **[VS Code](https://code.visualstudio.com/)** - Code editor.
 
 ### Learning Resources
-- **[Code institute](https://codeinstitute.net/global/)** - Full Stack Development for the AI Augmented Developer
-- **[Bootstrap Documentation](https://getbootstrap.com/docs/)** - UI component examples and reference
+- **[Code institute](https://codeinstitute.net/global/)** - Full Stack Development for the AI Augmented Developer.
+- **[Bootstrap Documentation](https://getbootstrap.com/docs/)** - UI component examples and reference.
 
-- **[Stack Overflow](https://stackoverflow.com/)** - Community support and problem-solving
+- **[Stack Overflow](https://stackoverflow.com/)** - Community support and problem-solving.
 
 
 ### Special Thanks
-- Code Institutes tutors and mentors for project guidance, support and all the valuable feedback throughout development
+- Code Institute tutors and mentors for project guidance, support and all the valuable feedback throughout development.
 
 
 ## Developer
