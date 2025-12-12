@@ -7,19 +7,19 @@
     <i class="fas fa-calendar-check me-2"></i>My Bookings {% endif %}
   </h2>
 
-  {% if user.is_staff %}
-  {% if user.is_staff %}
-  <a href="{% url 'trainer:booking_create' %}" class="btn btn-success btn-lg mb-4">
+  {% if user.is_staff %} {% if user.is_staff %}
+  <a
+    href="{% url 'trainer:booking_create' %}"
+    class="btn btn-success btn-lg mb-4"
+  >
     <i class="fas fa-plus me-2"></i>New Booking
   </a>
-{% endif %}
-  {% endif %} {% if bookings %}
+  {% endif %} {% endif %} {% if bookings %}
   <div class="table-responsive">
     <table class="table table-striped table-hover align-middle">
       <thead class="table-primary">
         <tr>
           <th>Client Name</th>
-          <th>Contact</th>
           <th>Date</th>
           <th>Time</th>
           <th>Status</th>
@@ -31,21 +31,53 @@
         {% for booking in bookings %}
         <tr>
           <!-- CLIENT NAME + EMAIL BELOW (clickable if real user) -->
+          <!-- CLIENT NAME COLUMN – Clean, beautiful, with WhatsApp/Call when phone detected -->
           <td>
-           {% if booking.client %}
-  <a href="{% url 'trainer:client_detail' booking.client.id %}" 
-     class="text-decoration-none fw-bold text-primary hover-underline">
-    {{ booking.client.get_full_name|default:booking.client.username }}
-  </a>
-  {% if booking.client.email %}
-    <br><small class="text-muted">{{ booking.client.email }}</small>
-  {% endif %}
-{% else %}
-  <strong>{{ booking.client_name|default:"(No name)" }}</strong>
-  {% if booking.client_contact %}
-    <br><small class="text-muted">{{ booking.client_contact }}</small>
-  {% endif %}
-{% endif %}
+            <div class="d-flex flex-column gap-1">
+              <!-- 1. Name (clickable if real user) -->
+              {% if booking.client %}
+              <a
+                href="{% url 'trainer:client_detail' booking.client.id %}"
+                class="text-decoration-none fw-bold text-primary"
+              >
+                {{ booking.client.get_full_name|default:booking.client.username
+                }}
+              </a>
+              {% else %}
+              <strong>{{ booking.client_name|default:"(No name)" }}</strong>
+              {% endif %}
+
+              <!-- 2. Phone with WhatsApp + Call (only if it looks like a phone) -->
+              {% with contact=booking.client_contact %} {% if contact and
+              contact|slice:":1" in "+0123456789" and contact|length > 8 %} {%
+              with clean_phone=contact|cut:" "|cut:"-"|cut:"("|cut:")"|cut:"."
+              %}
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <small class="text-success fw-600">{{ contact }}</small>
+                <a
+                  href="https://wa.me/{{ clean_phone }}"
+                  target="_blank"
+                  class="badge bg-success text-white text-decoration-none"
+                >
+                  WhatsApp
+                </a>
+                <a
+                  href="tel:{{ clean_phone }}"
+                  class="badge bg-primary text-white text-decoration-none"
+                >
+                  Call
+                </a>
+              </div>
+              {% endwith %} {% endif %} {% endwith %}
+
+              <!-- 3. Email (always shown, on its own line) -->
+              {% if booking.client and booking.client.email %}
+              <small class="text-muted">{{ booking.client.email }}</small>
+              {% elif booking.client_contact and
+              booking.client_contact|slice:":1" not in "+0123456789" %}
+              <small class="text-muted">{{ booking.client_contact }}</small>
+              {% endif %}
+            </div>
           </td>
 
           <!-- CONTACT COLUMN – 100% SAFE, NO CRASHES -->
