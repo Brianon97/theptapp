@@ -39,15 +39,16 @@ def booking_create(request):
         list(storage)  # forces clearing
 
         form = BookingForm(request.POST, user=request.user)
+
         if form.is_valid():
             booking = form.save(commit=False)
             booking.trainer = request.user
             booking.client = form.cleaned_data['client']
             booking.client_name = booking.client.get_full_name() or booking.client.username
-            booking.client_contact = booking.client.email
+            booking.client_contact = form.cleaned_data.get('client_contact', '').strip()
+
             booking.save()
 
-            # 🔥 Only one success message will be present now
             messages.success(request, f"Booking created for {booking.client_name}!")
             return redirect('trainer:booking_list')
 
@@ -73,10 +74,11 @@ def booking_edit(request, pk):
 
     # Only trainers reach here
     if request.method == 'POST':
-        form = BookingForm(request.POST, instance=booking,
-                           user=request.user)
+        form = BookingForm(request.POST, instance=booking, user=request.user)
         if form.is_valid():
-            form.save()
+            updated = form.save(commit=False)
+            updated.client_contact = form.cleaned_data.get('client_contact', '').strip()
+            updated.save()
             messages.success(request, 'Booking updated!')
             return redirect('trainer:booking_list')
     else:

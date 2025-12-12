@@ -66,3 +66,14 @@ class BookingForm(forms.ModelForm):
         # Optional: hide status from clients (they shouldn't change it)
         if not (user and user.is_staff):
             self.fields.pop('status', None)
+
+    def save(self, commit=True):
+        """Trim and persist contact number alongside default save."""
+        instance = super().save(commit=False)
+        instance.client_contact = self.cleaned_data.get('client_contact', '').strip()
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+
+        return instance
