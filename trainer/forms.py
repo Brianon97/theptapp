@@ -15,7 +15,8 @@ class BookingForm(forms.ModelForm):
                 attrs={'type': 'time', 'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-select'}),
             'notes': forms.Textarea(
-                attrs={'rows': 4, 'class': 'form-control'}),
+                attrs={'rows': 4, 'class': 'form-control',
+                       'maxlength': '500'}),
         }
 
     def __init__(self, *args, **kwargs):
