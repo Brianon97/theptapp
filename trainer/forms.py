@@ -12,10 +12,12 @@ class BookingForm(forms.ModelForm):
         label="Contact (Phone for SMS/reminders)",
         widget=forms.TextInput(attrs={
             'placeholder': '+1 555-123-4567',
-            'autocomplete': 'tel'
-    }),
-        help_text="Optional – enter phone number for text reminders"
-)
+            'autocomplete': 'tel',
+            'inputmode': 'tel',
+            'class': 'form-control',
+        }),
+        help_text="Optional – enter phone number for text reminders",
+    )
 
     class Meta:
         model = Booking

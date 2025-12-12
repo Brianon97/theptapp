@@ -46,15 +46,16 @@
           </td>
 
           <td>
-            <small class="text-muted">
-              {% if booking.client_contact %}
-                {{ booking.client_contact }}
-              {% elif booking.client and booking.client.email %}
-                {{ booking.client.email }}
-              {% else %}
-                <span class="text-secondary">— No contact</span>
+            {% if booking.client_contact %}
+              <div class="fw-semibold">{{ booking.client_contact }}</div>
+              {% if booking.client and booking.client.email %}
+                <small class="text-muted">{{ booking.client.email }}</small>
               {% endif %}
-            </small>
+            {% elif booking.client and booking.client.email %}
+              <small class="text-muted">{{ booking.client.email }}</small>
+            {% else %}
+              <span class="text-secondary">— No contact</span>
+            {% endif %}
           </td>
 
           <td><strong>{{ booking.date|date:"D, M j, Y" }}</strong></td>
