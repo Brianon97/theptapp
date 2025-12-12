@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Booking(models.Model):
     trainer = models.ForeignKey(
         User,
@@ -24,7 +25,11 @@ class Booking(models.Model):
     notes = models.TextField(blank=True)
     status = models.CharField(
         max_length=20,
-        choices=[('pending','Pending'),('confirmed','Confirmed'),('cancelled','Cancelled')],
+        choices=[
+            ('pending', 'Pending'),
+            ('confirmed', 'Confirmed'),
+            ('cancelled', 'Cancelled')
+        ],
         default='pending'
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -33,6 +38,10 @@ class Booking(models.Model):
         ordering = ['-date', '-time']
 
     def __str__(self):
-        trainer_name = self.trainer.get_full_name() or self.trainer.username if self.trainer else "Unassigned"
-        client_str = self.client.get_full_name() or self.client.username if self.client else self.client_name
+        trainer_name = (
+            self.trainer.get_full_name() or self.trainer.username
+            if self.trainer else "Unassigned")
+        client_str = (
+            self.client.get_full_name() or self.client.username
+            if self.client else self.client_name)
         return f"{client_str} → {trainer_name}"

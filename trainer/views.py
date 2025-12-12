@@ -1,15 +1,19 @@
 # trainer/views.py
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
+from django import forms
 from django.contrib import messages
-from django.http import JsonResponse
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+
 from .models import Booking
 from .forms import BookingForm
-from django import forms
-from django.contrib.auth.models import User
 
 
 @login_required
@@ -17,8 +21,10 @@ def booking_list(request):
     if request.user.is_staff:
         bookings = request.user.bookings.all().order_by('-date', 'time')
     else:
-        bookings = request.user.bookings_as_client.all().order_by('-date', 'time')
-    return render(request, 'trainer/booking_list.html', {'bookings': bookings})
+        bookings = request.user.bookings_as_client.all().order_by(
+            '-date', 'time')
+    return render(request, 'trainer/booking_list.html',
+                  {'bookings': bookings})
 
 
 @login_required
@@ -55,8 +61,10 @@ def booking_create(request):
 
 @login_required
 def booking_edit(request, pk):
-    # First get the booking (trainer OR client owns it)
-    booking = get_object_or_404(Booking, Q(pk=pk) & (Q(trainer=request.user) | Q(client=request.user)))
+    # Get the booking (trainer OR client owns it)
+    booking = get_object_or_404(
+        Booking, Q(pk=pk) & (
+            Q(trainer=request.user) | Q(client=request.user)))
 
     # Block clients from editing (for now)
     if not request.user.is_staff:
@@ -65,7 +73,8 @@ def booking_edit(request, pk):
 
     # Only trainers reach here
     if request.method == 'POST':
-        form = BookingForm(request.POST, instance=booking, user=request.user)
+        form = BookingForm(request.POST, instance=booking,
+                           user=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Booking updated!')
@@ -162,12 +171,13 @@ def check_notifications(request):
 
 @login_required
 def client_detail(request, user_id):
-    
     if not request.user.is_staff:
-        messages.error(request, "You don't have permission to view client profiles.")
+        msg = "You don't have permission to view client profiles."
+        messages.error(request, msg)
         return redirect('trainer:booking_list')
 
-    client = get_object_or_404(User, id=user_id, is_staff=False)  # Clients only
+    # Clients only
+    client = get_object_or_404(User, id=user_id, is_staff=False)
     bookings = client.bookings_as_client.all().order_by('-date', 'time')
 
     return render(request, 'trainer/client_detail.html', {
@@ -175,12 +185,6 @@ def client_detail(request, user_id):
         'bookings': bookings,
     })
 
-from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import messages
-from django.urls import reverse_lazy
-
-        # In your CustomLoginView class
 class CustomLoginView(SuccessMessageMixin, LoginView):
     template_name = 'login.html'
     success_message = "Welcome back! You are now logged in."
@@ -191,10 +195,13 @@ class CustomLoginView(SuccessMessageMixin, LoginView):
 
 class CustomLogoutView(LogoutView):
     next_page = 'home'
-    
+
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            messages.success(request, f"See you soon, {request.user.get_short_name() or request.user.username}! You've been logged out.")
+            name = (request.user.get_short_name() or
+                    request.user.username)
+            msg = f"See you soon, {name}! You've been logged out."
+            messages.success(request, msg)
         return super().dispatch(request, *args, **kwargs)
 
 

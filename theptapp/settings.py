@@ -9,8 +9,9 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
-##Temporary key for migrations 
-##SECRET_KEY = config('SECRET_KEY', default='django-insecure-temporary-local-key-12345')
+# Temporary key for migrations
+# SECRET_KEY = config('SECRET_KEY',
+#                      default='django-insecure-temporary-local-key-12345')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = ['*']
 
