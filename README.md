@@ -1,9 +1,12 @@
 # theptapp
 
+![alt text](assets/images/home_page/home_page.png)
+
+
 **Live URL**: https://theptapp-351a22750912.herokuapp.com/ 
 
 ## Purpose
-Personal trainer booking system with role-based access (Client / Trainer). The currently allows registered clients to view and cancle bookings made my registered trainer. Trainers have the ability to create, edit and cancle bookings with registered clients. Furture developement will look improve features for usability for both user such as date selection and push notications.
+Theptapp is a booking system with role-based access (Client / Trainer). It currently allows registered clients to view and cancel bookings made by a registered trainer. Trainers have the ability to create, edit and cancel bookings with registered clients. Future developments will look to add features to improve functionality for both trainer and clients such as available time slot selection and push notifications for creating and canceling bookings.
 
 ## Table of Contents
 - [User Stories](#user-stories)
@@ -25,7 +28,7 @@ This project follows an **Agile methodology** with user stories representing key
 2. **Should Have** - Important features that add significant value
 3. **Could Have** - Nice-to-have features for future enhancement
 
-User stories were developed based on personal experience with booking software and with AI assistance. The **GitHub Projects board** was used to manage and track progress throughout the development lifecycle, with "Must Have" features moved to the completed section first, followed by other priorities.
+User stories were developed based on personal experience with booking software and with AI assistance. The **GitHub Projects board** was used to manage and track progress throughout the development lifecycle, with "Must Have" features moved to "in progress" and then "completed" section first.
 
 **📋 View the Project Board:** [GitHub Projects](https://github.com/users/Brianon97/projects/9)
 
@@ -34,23 +37,23 @@ User stories were developed based on personal experience with booking software a
 - As a user, I want to access the login form so I can manage my bookings.
 - As a user, I want to edit, cancel and manage the status of my bookings.
 - As a user, I want to be notified when I make or cancel a booking.
-- As a user, I want to be able to take notes and view the date of the booking.
+- As a user, I want to be able to choose the date, time and add notes for the bookings.
 
 ### Should Have:
-- As a client, I should have options of packages to choose from.
 - As a user, I should have a separate page for the trainer and client.
 - As a client, I should be able to cancel and reschedule bookings that notify the trainer.
+- As a user I want input workouts to track my progress in strength, weight or other goals.
+- As a user,i should have a section for motivational tips to leave in the client page.
 - As a user I should be able to leave testimonial reviews.
-- As a user I should be able to make payments through strip integration.
+
 
 
 ### Could Have:
-- As a user, have motivational tips to leave in the client page.
-- As a user I could have a section for diet plans that allows you to view and choose food preferences and current plans.
-- As a user I want input workouts to track my progress in strength, weight or other goals.
+- As a user, I could have options of packages to choose (including diet/workout plans for clients and website memberships for train/admins).
 - As a user, I want to view workout plans and be able to save/bookmark my favorite.
 - As a user, I want to change the background theme so that I can personalize the app.
 - As a user, I want to share completed workouts on social media.
+- As a user I should be able to make payments through strip integration.
 
 ## UX Design
 
@@ -94,7 +97,7 @@ This project uses clear and modern text styling to ensure readability and health
 - Dark Footer: #111 (footer background)
 
 - **Font Family:** Uses **Segoe UI**, with **sans-serif** as a fallback for a clean, modern look.
-- **Font Size:** The base font size is **16px**, set through a CSS variable (`var(--bs-body-font-size)`) for responsive flexibility.
+- **Font Size:** The base font size is **16px**, set through a CSS variable for responsive flexibility.
 - **Text Color:** The text color is **white** (`rgb(255, 255, 255)`), applied using Bootstrap-style variables to maintain consistent color and opacity.
 - **New Booking Button Color:**
 The button is green - btn-success in Bootstrap gives it a green background color to stand out for the user to see clearly.
@@ -163,7 +166,7 @@ HTML validation was performed using the [W3C Markup Validation Service](https://
 - This is a known issue with Font Awesome's CSS.
 - The validator complains because none isn't a valid transform value in the CSS spec. However, Font Awesome's JavaScript handles this at runtime by setting the actual --fa-rotate-angle CSS variable to a real value like 45deg.
 - All modern browsers (Chrome, Firefox, Safari, Edge) support and render it correctly
-- No, you can't fix it—it's in the external Font Awesome library
+- This error was unable to be fixed as its in the external Font Awesome library.
 - Changing it would break the library's functionality
 This warning is cosmetic and doesn't impact user experience
 
