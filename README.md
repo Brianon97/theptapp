@@ -24,9 +24,9 @@ Theptapp is a booking system with role-based access (Client / Trainer). It curre
 
 This project follows an **Agile methodology** with user stories representing key features of the application. Features were prioritized using the **MoSCoW system**:
 
-1. **Must Have** - Critical features required for the app to function
-2. **Should Have** - Important features that add significant value
-3. **Could Have** - Nice-to-have features for future enhancement
+1. **Must Have** - Critical features required for the app to function.
+2. **Should Have** - Important features that add significant value.
+3. **Could Have** - Nice-to-have features for future enhancement.
 
 User stories were developed based on personal experience with booking software and with AI assistance. The **GitHub Projects board** was used to manage and track progress throughout the development lifecycle, with "Must Have" features moved to "in progress" and then "completed" section first.
 
@@ -89,7 +89,10 @@ User stories were developed based on personal experience with booking software a
 
 This project uses clear and modern text styling to ensure readability and health themed colors :
 
-- ** Primary Brand Colors:**
+Primary Brand Colors
+- Cyan / Turquoise:
+<span style="display:inline-block; width:16px; height:16px; background:#00d4ff; border-radius:4px; border:1px solid #ccc;"></span>
+`#00D4FF`
 
 - Cyan/Turquoise: #00d4ff (signup button, footer links)
 - Cyan Hover: #00b0d4 (signup button hover)
