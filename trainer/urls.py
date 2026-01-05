@@ -12,6 +12,7 @@ urlpatterns = [
     path('client/<int:user_id>/', views.client_detail,
          name='client_detail'),
     path('signup/', views.signup, name='signup'),
+    path('notifications/', views.notifications_list, name='notifications_list'),
     path('notifications/check/', views.check_notifications,
          name='check_notifications'),
     path('login/', views.CustomLoginView.as_view(), name='login'),

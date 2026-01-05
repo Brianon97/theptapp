@@ -1,6 +1,6 @@
 # trainer/admin.py
 from django.contrib import admin
-from .models import Booking
+from .models import Booking, Notification
 
 
 @admin.register(Booking)
@@ -17,3 +17,15 @@ class BookingAdmin(admin.ModelAdmin):
         if request.user.is_staff:
             return qs
         return qs.none()  # optional: hide from non-staff
+
+
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = (
+        'recipient', 'notification_type', 'client_name', 
+        'booking_date', 'is_read', 'created_at'
+    )
+    list_filter = ('notification_type', 'is_read', 'created_at')
+    search_fields = ('recipient__username', 'client_name', 'message')
+    readonly_fields = ('created_at',)
+    list_editable = ('is_read',)

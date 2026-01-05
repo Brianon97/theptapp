@@ -103,6 +103,14 @@
               </li>
 
               {% if user.is_staff %}
+                <li>
+                  <a class="dropdown-item" href="{% url 'trainer:notifications_list' %}">
+                    <i class="fas fa-bell me-2"></i>Notifications
+                    <span id="dropdown-notification-badge" class="badge bg-danger rounded-pill ms-2" style="display: none;">
+                      <span id="dropdown-notification-count">0</span>
+                    </span>
+                  </a>
+                </li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
                   <a class="dropdown-item text-success fw-bold" href="{% url 'trainer:booking_create' %}">
@@ -163,11 +171,22 @@
           .then((data) => {
             const badge = document.getElementById("notification-badge");
             const count = document.getElementById("notification-count");
+            const dropdownBadge = document.getElementById("dropdown-notification-badge");
+            const dropdownCount = document.getElementById("dropdown-notification-count");
+            
             if (data.count > 0) {
               count.textContent = data.count;
               badge.style.display = "inline-block";
+              
+              if (dropdownBadge && dropdownCount) {
+                dropdownCount.textContent = data.count;
+                dropdownBadge.style.display = "inline-block";
+              }
             } else {
               badge.style.display = "none";
+              if (dropdownBadge) {
+                dropdownBadge.style.display = "none";
+              }
             }
           })
           .catch(() => {});

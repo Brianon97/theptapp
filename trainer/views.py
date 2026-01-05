@@ -12,7 +12,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 
-from .models import Booking
+from .models import Booking, Notification
 from .forms import BookingForm
 
 
@@ -99,6 +99,19 @@ def booking_delete(request, pk):
 
     if request.method == 'POST':
         client_name = booking.client_name or "Client"
+        trainer = booking.trainer
+        
+        # If a client is cancelling, notify the trainer
+        if not request.user.is_staff and trainer:
+            Notification.objects.create(
+                recipient=trainer,
+                notification_type='booking_cancelled',
+                message=f"{client_name} has cancelled their booking",
+                client_name=client_name,
+                booking_date=booking.date,
+                booking_time=booking.time
+            )
+        
         booking.delete()
         messages.success(request, f'Booking for {client_name} cancelled.')
         return redirect('trainer:booking_list')
@@ -152,22 +165,69 @@ def signup(request):
 @login_required
 def check_notifications(request):
     if request.user.is_staff:
-        pending = Booking.objects.filter(trainer=request.user, status='pending').order_by('-created_at')
-    else:
-        pending = Booking.objects.filter(client=request.user, status='pending').order_by('-created_at')
-    count = pending.count()
-    latest = pending.first()
-    if latest:
-        data = {
-            'count': count,
-            'latest': {
-                'client_name': latest.client_name or "Someone",
-                'date': latest.date.strftime('%b %d'),
-                'time': latest.time.strftime('%I:%M %p'),
+        # Get unread notifications count for trainers
+        unread_notifications = Notification.objects.filter(
+            recipient=request.user, 
+            is_read=False
+        ).count()
+        
+        # Get pending bookings count
+        pending_bookings = Booking.objects.filter(
+            trainer=request.user, 
+            status='pending'
+        ).count()
+        
+        # Total notification count
+        total_count = unread_notifications + pending_bookings
+        
+        # Get latest notification
+        latest_notification = Notification.objects.filter(
+            recipient=request.user,
+            is_read=False
+        ).first()
+        
+        if latest_notification:
+            data = {
+                'count': total_count,
+                'latest': {
+                    'client_name': latest_notification.client_name,
+                    'date': latest_notification.booking_date.strftime('%b %d') if latest_notification.booking_date else '',
+                    'time': latest_notification.booking_time.strftime('%I:%M %p') if latest_notification.booking_time else '',
+                    'type': latest_notification.notification_type,
+                }
             }
-        }
+        else:
+            # Fall back to pending bookings if no notifications
+            pending = Booking.objects.filter(trainer=request.user, status='pending').order_by('-created_at').first()
+            if pending:
+                data = {
+                    'count': total_count,
+                    'latest': {
+                        'client_name': pending.client_name or "Someone",
+                        'date': pending.date.strftime('%b %d'),
+                        'time': pending.time.strftime('%I:%M %p'),
+                        'type': 'booking_pending',
+                    }
+                }
+            else:
+                data = {'count': 0}
     else:
-        data = {'count': 0}
+        # For clients, just show pending bookings
+        pending = Booking.objects.filter(client=request.user, status='pending').order_by('-created_at')
+        count = pending.count()
+        latest = pending.first()
+        if latest:
+            data = {
+                'count': count,
+                'latest': {
+                    'client_name': latest.client_name or "Someone",
+                    'date': latest.date.strftime('%b %d'),
+                    'time': latest.time.strftime('%I:%M %p'),
+                }
+            }
+        else:
+            data = {'count': 0}
+    
     return JsonResponse(data)
 
 
@@ -186,6 +246,25 @@ def client_detail(request, user_id):
         'client': client,
         'bookings': bookings,
     })
+
+
+@login_required
+def notifications_list(request):
+    """Display all notifications for trainers"""
+    if not request.user.is_staff:
+        messages.error(request, "Only trainers can view notifications.")
+        return redirect('trainer:booking_list')
+    
+    # Get all notifications for this trainer
+    notifications = Notification.objects.filter(recipient=request.user)
+    
+    # Mark all as read
+    notifications.filter(is_read=False).update(is_read=True)
+    
+    return render(request, 'trainer/notifications.html', {
+        'notifications': notifications
+    })
+
 
 class CustomLoginView(SuccessMessageMixin, LoginView):
     template_name = 'login.html'
