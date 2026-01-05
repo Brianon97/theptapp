@@ -1,7 +1,34 @@
 # trainer/forms.py
 from django import forms
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+import re
 from .models import Booking
+
+
+def validate_irish_phone(value):
+    """Validate Irish phone number format."""
+    if not value:  # Allow empty since it's optional
+        return
+    
+    # Remove common formatting characters
+    cleaned = re.sub(r'[\s\-().]', '', value)
+    
+    # Irish phone patterns:
+    # +353 followed by 9 digits (country code format)
+    # 0 followed by 9 digits (local format)
+    # 3 or 4 digits followed by variable length
+    irish_patterns = [
+        r'^\+353[0-9]{9}$',  # International format: +353 + 9 digits
+        r'^0[0-9]{9}$',      # Local format: 0 + 9 digits
+        r'^353[0-9]{9}$',    # Alternative international: 353 + 9 digits
+    ]
+    
+    is_valid = any(re.match(pattern, cleaned) for pattern in irish_patterns)
+    if not is_valid:
+        raise ValidationError(
+            'Please enter a valid Irish phone number. Examples: +353 1 234 5678 or 087 123 4567'
+        )
 
 
 class BookingForm(forms.ModelForm):
@@ -10,13 +37,14 @@ class BookingForm(forms.ModelForm):
         max_length=20,
         required=False,
         label="Contact (Phone for SMS/reminders)",
+        validators=[validate_irish_phone],
         widget=forms.TextInput(attrs={
-            'placeholder': '+1 555-123-4567',
+            'placeholder': '+353 87 123 4567',
             'autocomplete': 'tel',
             'inputmode': 'tel',
             'class': 'form-control',
         }),
-        help_text="Optional – enter phone number for text reminders",
+        help_text="Optional – enter Irish phone number for text reminders (e.g., +353 87 123 4567 or 087 123 4567)",
     )
 
     class Meta:
