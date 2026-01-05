@@ -165,54 +165,29 @@ def signup(request):
 @login_required
 def check_notifications(request):
     if request.user.is_staff:
-        # Get unread notifications count for trainers
-        unread_notifications = Notification.objects.filter(
-            recipient=request.user, 
-            is_read=False
-        ).count()
-        
-        # Get pending bookings count
-        pending_bookings = Booking.objects.filter(
-            trainer=request.user, 
-            status='pending'
-        ).count()
-        
-        # Total notification count
-        total_count = unread_notifications + pending_bookings
-        
-        # Get latest notification
-        latest_notification = Notification.objects.filter(
+        # Unread notifications only (don't include pending bookings so the badge clears)
+        unread_qs = Notification.objects.filter(
             recipient=request.user,
             is_read=False
-        ).first()
-        
-        if latest_notification:
+        )
+
+        unread_count = unread_qs.count()
+        latest = unread_qs.first()
+
+        if latest:
             data = {
-                'count': total_count,
+                'count': unread_count,
                 'latest': {
-                    'client_name': latest_notification.client_name,
-                    'date': latest_notification.booking_date.strftime('%b %d') if latest_notification.booking_date else '',
-                    'time': latest_notification.booking_time.strftime('%I:%M %p') if latest_notification.booking_time else '',
-                    'type': latest_notification.notification_type,
+                    'client_name': latest.client_name,
+                    'date': latest.booking_date.strftime('%b %d') if latest.booking_date else '',
+                    'time': latest.booking_time.strftime('%I:%M %p') if latest.booking_time else '',
+                    'type': latest.notification_type,
                 }
             }
         else:
-            # Fall back to pending bookings if no notifications
-            pending = Booking.objects.filter(trainer=request.user, status='pending').order_by('-created_at').first()
-            if pending:
-                data = {
-                    'count': total_count,
-                    'latest': {
-                        'client_name': pending.client_name or "Someone",
-                        'date': pending.date.strftime('%b %d'),
-                        'time': pending.time.strftime('%I:%M %p'),
-                        'type': 'booking_pending',
-                    }
-                }
-            else:
-                data = {'count': 0}
+            data = {'count': 0}
     else:
-        # For clients, just show pending bookings
+        # For clients, still show pending bookings
         pending = Booking.objects.filter(client=request.user, status='pending').order_by('-created_at')
         count = pending.count()
         latest = pending.first()
@@ -227,7 +202,7 @@ def check_notifications(request):
             }
         else:
             data = {'count': 0}
-    
+
     return JsonResponse(data)
 
 
